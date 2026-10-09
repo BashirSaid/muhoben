@@ -37,11 +37,11 @@ export function PlanGrid() {
                   <Link
                     href={`/day/${d.day}/`}
                     className={`flex h-full flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm ring-1 transition hover:-translate-y-0.5 hover:shadow ${
-                      isToday ? "ring-2 ring-indigo-500" : completion ? "ring-emerald-200" : "ring-slate-200"
+                      isToday ? "ring-2 ring-blue-500" : completion ? "ring-emerald-200" : "ring-slate-200"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-extrabold text-indigo-700">
+                      <span className="text-sm font-extrabold text-blue-700">
                         <span aria-hidden="true">{KIND_ICON[d.kind]}</span> اليوم {formatNumber(d.day)}
                       </span>
                       {completion ? (
@@ -49,7 +49,7 @@ export function PlanGrid() {
                           ✓ أُنجز · {formatNumber(completion.percent)}%
                         </span>
                       ) : isToday ? (
-                        <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-bold text-indigo-800">اليوم الحالي</span>
+                        <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-800">اليوم الحالي</span>
                       ) : null}
                     </div>
                     <span className="font-bold leading-7 text-slate-800">{d.title}</span>

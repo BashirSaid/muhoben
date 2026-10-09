@@ -10,6 +10,8 @@ const basePath = process.env.BASE_PATH?.replace(/\/$/, "") || undefined;
 const nextConfig: NextConfig = {
   output: "export",
   basePath,
+  // متاح في الواجهة لبناء روابط ملفات المجلد public (الشعار)
+  env: { NEXT_PUBLIC_BASE_PATH: basePath ?? "" },
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,

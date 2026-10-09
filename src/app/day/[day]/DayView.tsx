@@ -26,7 +26,7 @@ export function DayView({ day }: { day: number }) {
       </nav>
 
       <header>
-        <p className="text-sm font-extrabold text-indigo-700">
+        <p className="text-sm font-extrabold text-blue-700">
           اليوم {formatNumber(day)} من {formatNumber(TOTAL_DAYS)}
           {completion && <span className="ms-2 rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-800">✓ أُنجز</span>}
         </p>
@@ -54,11 +54,11 @@ export function DayView({ day }: { day: number }) {
         <div className="grid gap-4 md:grid-cols-2">
           {plan.lessons.map((l) => (
             <Card key={l.title} as="div">
-              <h3 className="font-extrabold text-indigo-800">{l.title}</h3>
+              <h3 className="font-extrabold text-blue-800">{l.title}</h3>
               <ul className="mt-2 space-y-2 leading-8 text-slate-700">
                 {l.points.map((p) => (
                   <li key={p} className="flex gap-2">
-                    <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-400" aria-hidden="true" />
+                    <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-400" aria-hidden="true" />
                     <RichText text={p} />
                   </li>
                 ))}
@@ -78,13 +78,13 @@ export function DayView({ day }: { day: number }) {
               <summary className="cursor-pointer list-none font-bold leading-8 text-slate-900">
                 <span className="me-2 rounded-lg bg-amber-100 px-2 py-0.5 text-sm text-amber-900">مثال {formatNumber(i + 1)}</span>
                 <RichText text={ex.problem} />
-                <span className="ms-2 text-sm font-normal text-indigo-700 group-open:hidden">(اضغط لعرض الحل)</span>
+                <span className="ms-2 text-sm font-normal text-blue-700 group-open:hidden">(اضغط لعرض الحل)</span>
               </summary>
               {ex.figure && <Figure id={ex.figure} />}
-              <ol className="mt-3 space-y-2 border-s-4 border-indigo-200 ps-4 leading-8 text-slate-700">
+              <ol className="mt-3 space-y-2 border-s-4 border-blue-200 ps-4 leading-8 text-slate-700">
                 {ex.steps.map((s, k) => (
                   <li key={k}>
-                    <span className="font-bold text-indigo-700">الخطوة {formatNumber(k + 1)}: </span>
+                    <span className="font-bold text-blue-700">الخطوة {formatNumber(k + 1)}: </span>
                     <RichText text={s} />
                   </li>
                 ))}
@@ -129,14 +129,14 @@ export function DayView({ day }: { day: number }) {
 
       <nav aria-label="التنقل بين الأيام" className="flex items-center justify-between gap-3 pt-2">
         {day > 1 ? (
-          <Link href={`/day/${day - 1}/`} className="rounded-xl px-4 py-2 font-bold text-indigo-700 ring-1 ring-indigo-200 hover:bg-indigo-50">
+          <Link href={`/day/${day - 1}/`} className="rounded-xl px-4 py-2 font-bold text-blue-700 ring-1 ring-blue-200 hover:bg-blue-50">
             → اليوم {formatNumber(day - 1)}
           </Link>
         ) : (
           <span />
         )}
         {day < TOTAL_DAYS && (
-          <Link href={`/day/${day + 1}/`} className="rounded-xl px-4 py-2 font-bold text-indigo-700 ring-1 ring-indigo-200 hover:bg-indigo-50">
+          <Link href={`/day/${day + 1}/`} className="rounded-xl px-4 py-2 font-bold text-blue-700 ring-1 ring-blue-200 hover:bg-blue-50">
             اليوم {formatNumber(day + 1)} ←
           </Link>
         )}

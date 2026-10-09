@@ -67,7 +67,7 @@ export function ResultsView() {
                     <span>
                       • {getTopic(p.topic).name} ({formatNumber(p.percent)}%)
                     </span>
-                    <Link href={`/practice/?topic=${p.topic}`} className="font-bold text-indigo-700 hover:underline">
+                    <Link href={`/practice/?topic=${p.topic}`} className="font-bold text-blue-700 hover:underline">
                       تدرّب
                     </Link>
                   </li>
@@ -132,7 +132,7 @@ export function ResultsView() {
                   onClick={() => setOpenId(openId === a.id ? null : a.id)}
                 >
                   <AttemptRow attempt={a} />
-                  <span className="mt-1 block text-xs font-bold text-indigo-700">
+                  <span className="mt-1 block text-xs font-bold text-blue-700">
                     {openId === a.id ? "إخفاء التفاصيل ▲" : "عرض التقرير ومراجعة الأخطاء ▼"}
                   </span>
                 </button>

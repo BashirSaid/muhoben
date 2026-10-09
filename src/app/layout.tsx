@@ -7,22 +7,24 @@ import "./globals.css";
 import { ProgressProvider } from "@/components/ProgressProvider";
 import { SiteHeader, MobileNav } from "@/components/SiteNav";
 import Link from "next/link";
+import { BRAND, COPYRIGHT_YEAR } from "@/data/brand";
 
 export const metadata: Metadata = {
   title: {
-    default: "منصة تدريب الموهوبين",
-    template: "%s | منصة تدريب الموهوبين",
+    default: BRAND.name,
+    template: `%s | ${BRAND.name}`,
   },
   description:
     "برنامج تدريبي تفاعلي لمدة 30 يومًا لطلاب الصف السادس لتنمية مهارات التفكير والاستدلال وحل المسائل استعدادًا لاختبارات برامج الموهوبين.",
-  applicationName: "منصة تدريب الموهوبين",
+  applicationName: BRAND.name,
+  authors: [{ name: BRAND.owner }],
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#4f46e5",
+  themeColor: "#1d6fd8",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -40,16 +42,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main id="main" className="mx-auto w-full max-w-5xl px-4 pt-6 pb-28 sm:px-6 md:pb-12">
             {children}
           </main>
-          <footer className="mx-auto max-w-5xl px-4 pb-28 text-center text-xs leading-6 text-slate-500 sm:px-6 md:pb-8">
-            <p>
-              جميع الدروس والأسئلة من إعداد المنصة لأغراض التدريب، وليست أسئلة رسمية ولا صادرة عن وزارة التربية والتعليم.
-            </p>
-            <p>
-              يُحفظ التقدّم على هذا الجهاز فقط.{" "}
-              <Link href="/about/" className="underline hover:text-slate-700">
-                عن المنصة والخصوصية
-              </Link>
-            </p>
+          <footer className="mt-6 border-t border-slate-200 bg-white">
+            <div className="mx-auto max-w-5xl space-y-2 px-4 pt-6 pb-28 text-center text-xs leading-6 text-slate-500 sm:px-6 md:pb-8">
+              <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-slate-600">
+                <a href={`mailto:${BRAND.email}`} className="hover:text-blue-700 hover:underline">
+                  ✉️ <bdi dir="ltr">{BRAND.email}</bdi>
+                </a>
+                <a href={`tel:${BRAND.phone}`} className="hover:text-blue-700 hover:underline">
+                  📞 <bdi dir="ltr">{BRAND.phoneDisplay}</bdi>
+                </a>
+              </p>
+              <p>
+                جميع الدروس والأسئلة من إعداد المنصة لأغراض التدريب، وليست أسئلة رسمية ولا صادرة عن وزارة التربية والتعليم.
+                يُحفظ التقدّم على هذا الجهاز فقط.{" "}
+                <Link href="/about/" className="underline hover:text-slate-700">
+                  عن المنصة والخصوصية
+                </Link>
+              </p>
+              <p className="font-bold text-slate-600">
+                © <bdi>{COPYRIGHT_YEAR}</bdi> جميع الحقوق محفوظة ل{BRAND.owner}
+              </p>
+            </div>
           </footer>
           <MobileNav />
         </ProgressProvider>

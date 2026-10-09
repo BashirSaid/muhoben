@@ -69,12 +69,12 @@ export function PracticeBuilder() {
               <label
                 key={t.id}
                 className={`flex cursor-pointer items-center gap-3 rounded-xl p-3 ring-1 transition ${
-                  topics.includes(t.id) ? "bg-indigo-50 ring-indigo-300" : "bg-white ring-slate-200"
+                  topics.includes(t.id) ? "bg-blue-50 ring-blue-300" : "bg-white ring-slate-200"
                 }`}
               >
                 <input
                   type="checkbox"
-                  className="h-5 w-5 accent-indigo-600"
+                  className="h-5 w-5 accent-blue-600"
                   checked={topics.includes(t.id)}
                   onChange={() => toggleTopic(t.id)}
                 />
@@ -86,7 +86,7 @@ export function PracticeBuilder() {
             ))}
           </div>
           <div className="mt-2 flex gap-3 text-sm">
-            <button type="button" className="font-bold text-indigo-700 hover:underline" onClick={() => setTopics([...TOPIC_IDS])}>
+            <button type="button" className="font-bold text-blue-700 hover:underline" onClick={() => setTopics([...TOPIC_IDS])}>
               اختر الكل
             </button>
             <button type="button" className="font-bold text-slate-500 hover:underline" onClick={() => setTopics([])}>
@@ -102,7 +102,7 @@ export function PracticeBuilder() {
               <label
                 key={l.id}
                 className={`cursor-pointer rounded-xl px-4 py-2 font-bold ring-1 ${
-                  level === l.id ? "bg-indigo-600 text-white ring-indigo-600" : "bg-white ring-slate-300"
+                  level === l.id ? "bg-blue-600 text-white ring-blue-600" : "bg-white ring-slate-300"
                 }`}
               >
                 <input type="radio" name="level" value={l.id} checked={level === l.id} onChange={() => setLevel(l.id)} className="sr-only" />
@@ -119,7 +119,7 @@ export function PracticeBuilder() {
               <label
                 key={c}
                 className={`cursor-pointer rounded-xl px-5 py-2 font-bold ring-1 ${
-                  count === c ? "bg-indigo-600 text-white ring-indigo-600" : "bg-white ring-slate-300"
+                  count === c ? "bg-blue-600 text-white ring-blue-600" : "bg-white ring-slate-300"
                 }`}
               >
                 <input type="radio" name="count" value={c} checked={count === c} onChange={() => setCount(c)} className="sr-only" />
@@ -134,7 +134,7 @@ export function PracticeBuilder() {
           <label className="flex items-center gap-3">
             <input
               type="checkbox"
-              className="h-5 w-5 accent-indigo-600"
+              className="h-5 w-5 accent-blue-600"
               checked={timed}
               onChange={(e) => setTimed(e.target.checked)}
             />
@@ -144,7 +144,7 @@ export function PracticeBuilder() {
             <label className="flex items-center gap-3">
               <input
                 type="checkbox"
-                className="h-5 w-5 accent-indigo-600"
+                className="h-5 w-5 accent-blue-600"
                 checked={feedback === "end"}
                 onChange={(e) => setFeedback(e.target.checked ? "end" : "immediate")}
               />

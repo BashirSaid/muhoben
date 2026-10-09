@@ -47,23 +47,23 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* بطاقة اليوم الحالي */}
-      <section className="overflow-hidden rounded-3xl bg-gradient-to-l from-indigo-600 to-violet-600 p-6 text-white shadow-lg sm:p-8">
-        <p className="text-sm font-bold text-indigo-100">
+      <section className="overflow-hidden rounded-3xl bg-gradient-to-l from-blue-700 to-sky-500 p-6 text-white shadow-lg sm:p-8">
+        <p className="text-sm font-bold text-sky-100">
           {isNew ? "أهلًا بك! 👋" : allDone ? "أنهيت الخطة كاملة! 🏆" : "مرحبًا من جديد! 👋"}
         </p>
         <h1 className="mt-1 text-2xl font-extrabold sm:text-3xl">
           {allDone ? "أحسنت! أكملت 30 يومًا من التدريب" : `اليوم ${formatNumber(day)} من ${formatNumber(TOTAL_DAYS)}`}
         </h1>
-        {!allDone && <p className="mt-2 text-lg text-indigo-50">{plan.title}</p>}
+        {!allDone && <p className="mt-2 text-lg text-blue-50">{plan.title}</p>}
         {isNew && (
-          <p className="mt-3 max-w-2xl leading-8 text-indigo-50">
+          <p className="mt-3 max-w-2xl leading-8 text-blue-50">
             برنامج من 30 يومًا لتقوية التفكير المنطقي، والأنماط، واللغة، والتفكير الكمي، والأشكال، وحل المشكلات. كل يوم: درس قصير، وأمثلة محلولة، وأسئلة تدريبية مع شرح.
           </p>
         )}
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
             href={allDone ? "/exam/" : `/day/${day}/`}
-            className="inline-flex min-h-11 items-center rounded-xl bg-white px-5 py-2.5 font-extrabold text-indigo-700 shadow hover:bg-indigo-50"
+            className="inline-flex min-h-11 items-center rounded-xl bg-white px-5 py-2.5 font-extrabold text-blue-700 shadow hover:bg-blue-50"
           >
             {allDone ? "اختبار شامل جديد" : isNew ? "ابدأ اليوم الأول ←" : "تابع درس اليوم ←"}
           </Link>
@@ -98,7 +98,7 @@ export default function DashboardPage() {
               <li key={s.href + s.title}>
                 <Link
                   href={s.href}
-                  className="flex items-center gap-3 rounded-xl p-3 ring-1 ring-slate-200 transition hover:bg-indigo-50 hover:ring-indigo-200"
+                  className="flex items-center gap-3 rounded-xl p-3 ring-1 ring-slate-200 transition hover:bg-blue-50 hover:ring-blue-200"
                 >
                   <span className="text-2xl" aria-hidden="true">
                     {s.icon}
@@ -118,7 +118,7 @@ export default function DashboardPage() {
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-lg font-extrabold">آخر النتائج</h2>
             {recent.length > 0 && (
-              <Link href="/results/" className="text-sm font-bold text-indigo-700 hover:underline">
+              <Link href="/results/" className="text-sm font-bold text-blue-700 hover:underline">
                 كل النتائج
               </Link>
             )}
@@ -156,7 +156,7 @@ export default function DashboardPage() {
                 <ProgressBar className="mt-3 bg-white" value={p.percent} barClass={st.bar} label={t.name} />
                 <div className="mt-2 flex items-center justify-between text-xs text-slate-600">
                   <span>{p.total ? `${formatNumber(p.correct)} صحيحة من ${formatNumber(p.total)}` : "لا توجد إجابات بعد"}</span>
-                  <Link href={`/practice/?topic=${p.topic}`} className="font-bold text-indigo-700 hover:underline">
+                  <Link href={`/practice/?topic=${p.topic}`} className="font-bold text-blue-700 hover:underline">
                     تدرّب
                   </Link>
                 </div>

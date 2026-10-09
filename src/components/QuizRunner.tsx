@@ -209,9 +209,9 @@ export function QuizRunner({
                 aria-label={`السؤال ${i + 1}${answers[i] !== null ? " (تمت الإجابة)" : ""}`}
                 className={`h-9 w-9 rounded-lg text-sm font-bold ring-1 ${
                   i === index
-                    ? "bg-indigo-600 text-white ring-indigo-600"
+                    ? "bg-blue-600 text-white ring-blue-600"
                     : answers[i] !== null
-                      ? "bg-indigo-50 text-indigo-800 ring-indigo-200"
+                      ? "bg-blue-50 text-blue-800 ring-blue-200"
                       : "bg-white text-slate-600 ring-slate-300"
                 }`}
               >

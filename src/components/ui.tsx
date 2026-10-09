@@ -32,7 +32,7 @@ export function PageTitle({ title, subtitle }: { title: string; subtitle?: React
 export function ProgressBar({
   value,
   className = "",
-  barClass = "bg-indigo-500",
+  barClass = "bg-blue-500",
   label,
 }: {
   value: number;
@@ -69,7 +69,7 @@ export function ProgressRing({ value, size = 120, label }: { value: number; size
           cy="60"
           r={r}
           fill="none"
-          stroke="#6366f1"
+          stroke="#1d6fd8"
           strokeWidth="12"
           strokeLinecap="round"
           strokeDasharray={c}
@@ -88,7 +88,7 @@ export function ProgressRing({ value, size = 120, label }: { value: number; size
 export function StatCard({ label, value, icon }: { label: string; value: React.ReactNode; icon: string }) {
   return (
     <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200">
-      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-indigo-50 text-xl" aria-hidden="true">
+      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-blue-50 text-xl" aria-hidden="true">
         {icon}
       </span>
       <div>
@@ -125,15 +125,15 @@ export function DifficultyBadge({ difficulty }: { difficulty: Difficulty }) {
 }
 
 const BUTTON_VARIANTS = {
-  primary: "bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm",
+  primary: "bg-blue-600 text-white hover:bg-blue-700 shadow-sm",
   secondary: "bg-white text-slate-800 ring-1 ring-slate-300 hover:bg-slate-50",
   success: "bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm",
   danger: "bg-white text-rose-700 ring-1 ring-rose-300 hover:bg-rose-50",
-  ghost: "text-indigo-700 hover:bg-indigo-50",
+  ghost: "text-blue-700 hover:bg-blue-50",
 };
 type Variant = keyof typeof BUTTON_VARIANTS;
 const BUTTON_BASE =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-base font-bold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-base font-bold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-50";
 
 export function Button({
   variant = "primary",

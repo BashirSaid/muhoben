@@ -80,7 +80,7 @@ function ShadedGrid() {
             y={10 + r * 60}
             width="60"
             height="60"
-            fill={shaded.has(`${r}-${c}`) ? "#6366f1" : "#ffffff"}
+            fill={shaded.has(`${r}-${c}`) ? "#1d6fd8" : "#ffffff"}
             stroke={STROKE}
             strokeWidth="3"
           />

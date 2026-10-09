@@ -75,3 +75,17 @@ test("الصفحة غير الموجودة تعرض رسالة عربية", asyn
   await page.goto("no-such-page/");
   await expect(page.getByText("الصفحة غير موجودة")).toBeVisible();
 });
+
+test("هوية المنصة: الاسم والشعار وبيانات التواصل وحقوق النشر", async ({ page }) => {
+  await page.goto("./");
+  await expect(page).toHaveTitle(/منصة تسنيم التعليمية/);
+  await expect(page.getByRole("banner").getByText("منصة تسنيم التعليمية")).toBeVisible();
+  const logo = page.getByRole("banner").locator("img");
+  await expect(logo).toBeVisible();
+  // الشعار حُمّل فعلًا (يعمل أيضًا مع المسار الفرعي على GitHub Pages)
+  expect(await logo.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+  const footer = page.getByRole("contentinfo");
+  await expect(footer).toContainText("جميع الحقوق محفوظة لتسنيم للحاسوب");
+  await expect(footer.getByRole("link", { name: /tasnimsystems@gmail\.com/ })).toHaveAttribute("href", "mailto:tasnimsystems@gmail.com");
+  await expect(footer.getByRole("link", { name: /\+972/ })).toHaveAttribute("href", "tel:+972547297817");
+});

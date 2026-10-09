@@ -21,7 +21,7 @@ export function QuizReport({ attempt, orders }: { attempt: QuizAttempt; orders?:
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col items-center gap-4 rounded-2xl bg-gradient-to-l from-indigo-50 to-sky-50 p-6 text-center sm:flex-row sm:text-start">
+      <div className="flex flex-col items-center gap-4 rounded-2xl bg-gradient-to-l from-blue-50 to-sky-50 p-6 text-center sm:flex-row sm:text-start">
         <ProgressRing value={pct} label="نسبة النجاح" />
         <div className="flex-1">
           <h2 className="text-2xl font-extrabold text-slate-900">{msg.title}</h2>

@@ -4,8 +4,41 @@ import { QUESTION_BANK } from "@/data/questions";
 import { TOPICS } from "@/data/topics";
 import { formatNumber } from "@/lib/format";
 import { DataManager } from "./DataManager";
+import { BRAND, COPYRIGHT_YEAR, asset } from "@/data/brand";
 
 export const metadata: Metadata = { title: "عن المنصة والخصوصية" };
+
+function ContactCard() {
+  return (
+    <Card>
+      <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:text-start">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={asset(BRAND.logo)} alt={`شعار ${BRAND.name}`} width={96} height={96} className="h-24 w-24 rounded-2xl" />
+        <div>
+          <h2 className="text-lg font-extrabold">📬 تواصل معنا</h2>
+          <p className="mt-1 text-slate-700">لأي استفسار أو اقتراح أو ملاحظة حول المحتوى، يسعدنا تواصلكم:</p>
+          <ul className="mt-2 space-y-1 text-slate-700">
+            <li>
+              البريد الإلكتروني:{" "}
+              <a href={`mailto:${BRAND.email}`} className="font-bold text-blue-700 hover:underline">
+                <bdi dir="ltr">{BRAND.email}</bdi>
+              </a>
+            </li>
+            <li>
+              الهاتف:{" "}
+              <a href={`tel:${BRAND.phone}`} className="font-bold text-blue-700 hover:underline">
+                <bdi dir="ltr">{BRAND.phoneDisplay}</bdi>
+              </a>
+            </li>
+          </ul>
+          <p className="mt-2 text-sm text-slate-500">
+            © <bdi>{COPYRIGHT_YEAR}</bdi> جميع الحقوق محفوظة ل{BRAND.owner}.
+          </p>
+        </div>
+      </div>
+    </Card>
+  );
+}
 
 export default function AboutPage() {
   return (
@@ -15,7 +48,7 @@ export default function AboutPage() {
         <Card>
           <h2 className="text-lg font-extrabold">ما هذه المنصة؟</h2>
           <p className="mt-2 text-slate-700">
-            منصة تدريبية مجانية لطلاب الصف السادس في المدارس العربية، تساعدهم على تنمية مهارات التفكير والاستدلال وحل
+            {BRAND.name} هي منصة تدريبية لطلاب الصف السادس في المدارس العربية، تساعدهم على تنمية مهارات التفكير والاستدلال وحل
             المسائل خلال 30 يومًا، استعدادًا لاختبارات القبول في برامج الموهوبين والمتفوقين.
           </p>
           <p className="mt-2 text-slate-700">تغطي المنصة ستة مجالات تفكير عامة:</p>
@@ -67,6 +100,8 @@ export default function AboutPage() {
           </p>
           <DataManager />
         </Card>
+
+        <ContactCard />
 
         <Card>
           <h2 className="text-lg font-extrabold">👨‍👩‍👧 للأهل والمعلّمين</h2>

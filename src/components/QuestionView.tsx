@@ -42,13 +42,13 @@ export function QuestionView({ question, order, number, total, selected, onSelec
         {order.map((original, displayIdx) => {
           const isSelected = selected === original;
           const isCorrect = original === question.answer;
-          let cls = "bg-white ring-slate-300 hover:ring-indigo-400 hover:bg-indigo-50/40";
+          let cls = "bg-white ring-slate-300 hover:ring-blue-400 hover:bg-blue-50/40";
           if (revealed) {
             if (isCorrect) cls = "bg-emerald-50 ring-emerald-500 ring-2";
             else if (isSelected) cls = "bg-rose-50 ring-rose-400 ring-2";
             else cls = "bg-white ring-slate-200 opacity-70";
           } else if (isSelected) {
-            cls = "bg-indigo-50 ring-indigo-500 ring-2";
+            cls = "bg-blue-50 ring-blue-500 ring-2";
           }
           return (
             <button
@@ -62,7 +62,7 @@ export function QuestionView({ question, order, number, total, selected, onSelec
             >
               <span
                 className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-extrabold ${
-                  isSelected ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-700"
+                  isSelected ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-700"
                 }`}
                 aria-hidden="true"
               >
