@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,
+  // عدم إنشاء ملف AGENTS.md تلقائيًا عند تشغيل خادم التطوير
+  agentRules: false,
 };
 
 export default nextConfig;
