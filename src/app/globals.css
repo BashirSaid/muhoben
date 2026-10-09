@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Tajawal", "Segoe UI", "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-feature-settings: "kern";
+  }
+  /* الأرقام بعرض ثابت في المؤقت والجداول */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* تعابير رياضية تُعرض من اليسار إلى اليمين داخل النص العربي */
+.math {
+  unicode-bidi: isolate;
+  direction: ltr;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
