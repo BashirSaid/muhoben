@@ -7,7 +7,7 @@ describe("بنك الأسئلة", () => {
   it("يحتوي على عدد كافٍ من الأسئلة في كل مجال وكل مستوى", () => {
     for (const topic of TOPIC_IDS) {
       const inTopic = QUESTION_BANK.filter((q) => q.topic === topic);
-      expect(inTopic.length, topic).toBeGreaterThanOrEqual(20);
+      expect(inTopic.length, topic).toBeGreaterThanOrEqual(30);
       for (const d of [1, 2, 3] as const) {
         expect(inTopic.filter((q) => q.difficulty === d).length, `${topic}/${d}`).toBeGreaterThanOrEqual(6);
       }

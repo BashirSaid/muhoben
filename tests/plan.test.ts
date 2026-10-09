@@ -45,6 +45,10 @@ describe("الخطة التدريبية", () => {
     }
   });
 
+  it("كل تدريب يومي يتكون من 30 سؤالًا", () => {
+    for (const d of PLAN) expect(d.quiz.count, `day ${d.day}`).toBe(30);
+  });
+
   it("اليوم الأخير اختبار شامل بمؤقت", () => {
     const last = PLAN[PLAN.length - 1];
     expect(last.kind).toBe("exam");

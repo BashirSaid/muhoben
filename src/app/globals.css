@@ -8,6 +8,8 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    /* الشريط العلوي ثابت: نترك له مساحة عند التمرير إلى عنصر أو عند التركيز عليه */
+    scroll-padding-top: 5rem;
   }
   body {
     @apply bg-slate-50 text-slate-800 antialiased;

@@ -16,11 +16,13 @@ test("الصفحات الرئيسية عربية باتجاه RTL وبلا تم�
 });
 
 test("إكمال أسئلة اليوم الأول يحدّث لوحة الطالب", async ({ page }) => {
+  test.setTimeout(180_000); // 30 سؤالًا مع الشرح بعد كل سؤال
   await page.goto("day/1/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("التفكير المنطقي");
   await page.getByRole("button", { name: "ابدأ الأسئلة" }).click();
 
-  for (let i = 0; i < 6; i++) {
+  await expect(page.getByText("السؤال 1 من 30")).toBeVisible();
+  for (let i = 0; i < 30; i++) {
     await page.getByRole("radio").first().click();
     await page.getByRole("button", { name: "تحقّق من الإجابة" }).click();
     await expect(page.getByText("الإجابة الصحيحة:").first()).toBeVisible();

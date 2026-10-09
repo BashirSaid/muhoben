@@ -65,7 +65,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "ضع خطًّا تحت الكلمات المفتاحية في السؤال مثل: كل، بعض، فقط، ليس، على الأقل.",
-    quiz: { count: 6, difficulties: [1] },
+    quiz: { count: 30, difficulties: [1] },
   },
   {
     day: 2,
@@ -121,7 +121,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "اكتب الفروق فوق المتتالية بقلم الرصاص؛ كثيرًا ما تظهر القاعدة فورًا.",
-    quiz: { count: 6, difficulties: [1] },
+    quiz: { count: 30, difficulties: [1] },
   },
   {
     day: 3,
@@ -174,7 +174,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "إذا ناسبت أكثر من إجابة، اجعل جملة العلاقة أدقّ.",
-    quiz: { count: 6, difficulties: [1] },
+    quiz: { count: 30, difficulties: [1] },
   },
   {
     day: 4,
@@ -226,7 +226,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "بعد الحل، اسأل: هل الإجابة منطقية؟ الباقي لا يمكن أن يكون أكبر مما دفعناه!",
-    quiz: { count: 6, difficulties: [1] },
+    quiz: { count: 30, difficulties: [1] },
   },
   {
     day: 5,
@@ -275,7 +275,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "استعن بيدك أو بورقة صغيرة لتجربة الدوران فعليًا — هذا مسموح أثناء التدريب!",
-    quiz: { count: 6, difficulties: [1] },
+    quiz: { count: 30, difficulties: [1] },
   },
   {
     day: 6,
@@ -321,7 +321,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "خطوة التحقق تكشف كثيرًا من الأخطاء الصغيرة. لا تتخطَّها!",
-    quiz: { count: 6, difficulties: [1] },
+    quiz: { count: 30, difficulties: [1] },
   },
   {
     day: 7,
@@ -345,7 +345,7 @@ export const PLAN: DayPlan[] = [
     ],
     examples: [],
     tip: "بعد اختبار المراجعة، افتح «التقارير» لترى المجال الذي يحتاج إلى تدريب إضافي.",
-    quiz: { count: 12, difficulties: [1] },
+    quiz: { count: 30, difficulties: [1] },
   },
   // ======================= الأسبوع الثاني =======================
   {
@@ -392,7 +392,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "في أسئلة الأيام، تذكّر أن كل 7 أيام نعود إلى اليوم نفسه.",
-    quiz: { count: 6, difficulties: [1, 2] },
+    quiz: { count: 30, difficulties: [1, 2] },
   },
   {
     day: 9,
@@ -446,7 +446,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "إذا لم تنجح الفروق، جرّب القسمة، ثم جرّب فصل المواقع الفردية عن الزوجية.",
-    quiz: { count: 6, difficulties: [1, 2] },
+    quiz: { count: 30, difficulties: [1, 2] },
   },
   {
     day: 10,
@@ -492,7 +492,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "الخيار الذي يذكر تفصيلًا صحيحًا من النص ليس بالضرورة هو الفكرة الرئيسة.",
-    quiz: { count: 6, difficulties: [1, 2] },
+    quiz: { count: 30, difficulties: [1, 2] },
   },
   {
     day: 11,
@@ -537,7 +537,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "انتبه: هل يسأل السؤال عن مقدار التخفيض أم عن السعر بعد التخفيض؟",
-    quiz: { count: 6, difficulties: [1, 2] },
+    quiz: { count: 30, difficulties: [1, 2] },
   },
   {
     day: 12,
@@ -583,7 +583,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "إذا استطعت، اقصص شبكة مكعب من ورق واطوِها بيدك — ستتذكرها طويلًا.",
-    quiz: { count: 6, difficulties: [1, 2] },
+    quiz: { count: 30, difficulties: [1, 2] },
   },
   {
     day: 13,
@@ -628,7 +628,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "سجّل تخميناتك في جدول صغير حتى ترى هل تقترب من الإجابة.",
-    quiz: { count: 6, difficulties: [1, 2] },
+    quiz: { count: 30, difficulties: [1, 2] },
   },
   {
     day: 14,
@@ -649,7 +649,7 @@ export const PLAN: DayPlan[] = [
     ],
     examples: [],
     tip: "خذ نفسًا عميقًا قبل أن تبدأ. أنت مستعد أكثر مما تظن!",
-    quiz: { count: 12, difficulties: [1, 2], timeLimitMinutes: 18 },
+    quiz: { count: 30, difficulties: [1, 2], timeLimitMinutes: 40 },
   },
   // ======================= الأسبوع الثالث =======================
   {
@@ -696,7 +696,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "اصنع جدولًا صغيرًا: الاحتمالات في الصفوف، وكل عبارة في عمود (صادقة/كاذبة).",
-    quiz: { count: 6, difficulties: [2] },
+    quiz: { count: 30, difficulties: [2] },
   },
   {
     day: 16,
@@ -739,7 +739,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "عندما تجد قاعدة، اختبرها على كل المجموعات قبل أن تختار الإجابة.",
-    quiz: { count: 6, difficulties: [2] },
+    quiz: { count: 30, difficulties: [2] },
   },
   {
     day: 17,
@@ -784,7 +784,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "اقرأ كثيرًا! القراءة اليومية من أفضل الطرق لزيادة مخزونك من الكلمات.",
-    quiz: { count: 6, difficulties: [2] },
+    quiz: { count: 30, difficulties: [2] },
   },
   {
     day: 18,
@@ -830,7 +830,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "في مسائل الأعمار، جرّب الخيارات المعطاة: عوّض بكل خيار وتحقق.",
-    quiz: { count: 6, difficulties: [2] },
+    quiz: { count: 30, difficulties: [2] },
   },
   {
     day: 19,
@@ -871,7 +871,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "عند عدّ الأشكال، اكتب العدد لكل حجم في قائمة ثم اجمعها.",
-    quiz: { count: 6, difficulties: [2] },
+    quiz: { count: 30, difficulties: [2] },
   },
   {
     day: 20,
@@ -914,7 +914,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "عبارة «لنضمن» أو «لنتأكد» إشارة إلى التفكير في أسوأ الاحتمالات.",
-    quiz: { count: 6, difficulties: [2] },
+    quiz: { count: 30, difficulties: [2] },
   },
   {
     day: 21,
@@ -938,7 +938,7 @@ export const PLAN: DayPlan[] = [
     ],
     examples: [],
     tip: "قارن نتيجة هذه المراجعة بمراجعة الأسبوع الأول في صفحة التقارير — ستلاحظ تقدّمك.",
-    quiz: { count: 12, difficulties: [2] },
+    quiz: { count: 30, difficulties: [2] },
   },
   // ======================= الأسبوع الرابع =======================
   {
@@ -982,7 +982,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "عندما يبدو الخيار «صحيحًا في الحياة»، اسأل: هل هو صحيح «بالتأكيد» من المعطيات؟",
-    quiz: { count: 6, difficulties: [2, 3] },
+    quiz: { count: 30, difficulties: [2, 3] },
   },
   {
     day: 23,
@@ -1024,7 +1024,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "احفظ المربعات حتى 12 × 12 والمكعبات حتى 5 × 5 × 5؛ ستوفر عليك وقتًا كبيرًا.",
-    quiz: { count: 6, difficulties: [2, 3] },
+    quiz: { count: 30, difficulties: [2, 3] },
   },
   {
     day: 24,
@@ -1063,7 +1063,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "اسأل عن كل خيار: «أين الدليل عليه في النص؟». إذا لم تجد دليلًا فاستبعده.",
-    quiz: { count: 6, difficulties: [2, 3] },
+    quiz: { count: 30, difficulties: [2, 3] },
   },
   {
     day: 25,
@@ -1116,7 +1116,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "اكتب نتيجة كل خطوة بجانبها مع وحدتها (شيكل، كم، دقيقة).",
-    quiz: { count: 6, difficulties: [2, 3] },
+    quiz: { count: 30, difficulties: [2, 3] },
   },
   {
     day: 26,
@@ -1164,7 +1164,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "ارسم المكعب أو تخيّل طبقاته واحدة واحدة: العليا، الوسطى، السفلى.",
-    quiz: { count: 6, difficulties: [2, 3] },
+    quiz: { count: 30, difficulties: [2, 3] },
   },
   {
     day: 27,
@@ -1206,7 +1206,7 @@ export const PLAN: DayPlan[] = [
       },
     ],
     tip: "إذا لم تعرف من أين تبدأ، جرّب أصغر حالة ممكنة.",
-    quiz: { count: 6, difficulties: [2, 3] },
+    quiz: { count: 30, difficulties: [2, 3] },
   },
   {
     day: 28,
@@ -1230,7 +1230,7 @@ export const PLAN: DayPlan[] = [
     ],
     examples: [],
     tip: "ركّز في المراجعة على الأسئلة التي أخطأت فيها سابقًا، واقرأ شرحها مرة أخرى.",
-    quiz: { count: 12, difficulties: [2, 3] },
+    quiz: { count: 30, difficulties: [2, 3] },
   },
   {
     day: 29,
@@ -1266,7 +1266,7 @@ export const PLAN: DayPlan[] = [
     ],
     examples: [],
     tip: "جرّب في اختبار اليوم أن تتخطى أي سؤال يأخذ أكثر من دقيقتين، ثم ارجع إليه.",
-    quiz: { count: 12, difficulties: [1, 2, 3], timeLimitMinutes: 18 },
+    quiz: { count: 30, difficulties: [1, 2, 3], timeLimitMinutes: 40 },
   },
   {
     day: 30,
