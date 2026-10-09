@@ -75,6 +75,28 @@ netlify deploy --dir=out --prod   # نشر نهائي
 
 يضيف `netlify.toml` أيضًا ترويسات أمان أساسية، وتخزينًا طويل الأمد للملفات الثابتة، وصفحة 404 عربية.
 
+## النشر على GitHub Pages
+
+يحتوي المستودع على سير عمل جاهز في `.github/workflows/deploy-pages.yml`. يفحص المشروع (TypeScript واختبارات الوحدات)، ثم يبنيه وينشره على GitHub Pages تلقائيًا عند كل دفع إلى الفرع `main` (أو فرع التطوير الحالي).
+
+**التفعيل (مرة واحدة فقط):**
+1. افتح المستودع على GitHub ← **Settings** ← **Pages**.
+2. تحت **Build and deployment** اختر **Source: GitHub Actions**.
+3. افتح تبويب **Actions** ← **Deploy to GitHub Pages** ← **Run workflow** (أو ادفع أي تغيير).
+4. بعد انتهاء التشغيل يظهر الرابط في صفحة Pages وفي نتيجة سير العمل:
+   `https://bashirsaid.github.io/muhoben/`
+
+**ملاحظات:**
+- الموقع يُنشر تحت مسار فرعي (`/muhoben/`)، ويضبطه سير العمل تلقائيًا عبر المتغير `BASE_PATH`. لا حاجة لتغيير أي شيء في الكود.
+- لتجربة هذا المسار محليًا:
+  ```bash
+  BASE_PATH=/muhoben npm run build
+  BASE_PATH=/muhoben npm start        # http://localhost:3000/muhoben/
+  BASE_PATH=/muhoben npm run test:e2e
+  ```
+- GitHub Pages مجاني للمستودعات العامة. وإذا جُعل المستودع خاصًا فيلزم اشتراك مدفوع في GitHub.
+- يمكن استخدام GitHub Pages وNetlify معًا. نسخة Netlify تعمل على جذر النطاق دون مسار فرعي.
+
 ## بنية المشروع
 
 ```

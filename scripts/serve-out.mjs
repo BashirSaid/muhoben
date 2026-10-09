@@ -6,6 +6,8 @@ import { extname, join, normalize, resolve } from "node:path";
 
 const root = resolve(process.cwd(), "out");
 const port = Number(process.env.PORT ?? 3000);
+// إذا بُني الموقع بمسار فرعي (BASE_PATH=/muhoben) نخدمه تحت المسار نفسه
+const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
 const TYPES = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
@@ -35,7 +37,8 @@ async function resolveFile(urlPath) {
 
 createServer(async (req, res) => {
   const url = new URL(req.url ?? "/", "http://localhost");
-  const file = await resolveFile(url.pathname);
+  const inBase = !basePath || url.pathname === basePath || url.pathname.startsWith(`${basePath}/`);
+  const file = inBase ? await resolveFile(url.pathname.slice(basePath.length) || "/") : null;
   if (!file) {
     res.writeHead(404, { "Content-Type": TYPES[".html"] });
     res.end(await readFile(join(root, "404.html")).catch(() => "Not found"));
@@ -44,5 +47,5 @@ createServer(async (req, res) => {
   res.writeHead(200, { "Content-Type": TYPES[extname(file)] ?? "application/octet-stream" });
   res.end(await readFile(file));
 }).listen(port, () => {
-  console.log(`Serving ${root} at http://localhost:${port}`);
+  console.log(`Serving ${root} at http://localhost:${port}${basePath}/`);
 });
