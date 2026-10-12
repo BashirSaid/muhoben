@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { QuizRunner, type QuizConfig } from "@/components/QuizRunner";
 import { Button, Card } from "@/components/ui";
-import { QUESTION_BANK } from "@/data/questions";
+import { QUESTION_BANK, SHAPE_QUESTIONS } from "@/data/questions";
 import { DIFFICULTY_LABELS, TOPICS, TOPIC_IDS } from "@/data/topics";
 import { formatNumber } from "@/lib/format";
 import type { Difficulty, TopicId } from "@/lib/types";
@@ -27,10 +27,13 @@ export function PracticeBuilder() {
   const [count, setCount] = useState(10);
   const [timed, setTimed] = useState(false);
   const [feedback, setFeedback] = useState<"immediate" | "end">("immediate");
+  const [shapesOnly, setShapesOnly] = useState(params.get("type") === "shapes");
   const [session, setSession] = useState<{ key: number; config: QuizConfig; feedback: "immediate" | "end" } | null>(null);
 
   const difficulties = LEVELS.find((l) => l.id === level)!.value;
-  const available = QUESTION_BANK.filter((q) => topics.includes(q.topic)).length;
+  const shapeTopics = [...new Set(SHAPE_QUESTIONS.map((q) => q.topic))];
+  const activeTopics = shapesOnly ? shapeTopics : topics;
+  const available = (shapesOnly ? SHAPE_QUESTIONS : QUESTION_BANK).filter((q) => activeTopics.includes(q.topic)).length;
 
   const toggleTopic = (id: TopicId) =>
     setTopics((prev) => (prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]));
@@ -40,7 +43,7 @@ export function PracticeBuilder() {
       <QuizRunner
         key={session.key}
         kind="practice"
-        title="تدريب حر"
+        title={session.config.pool ? "تدريب على أسئلة الأشكال" : "تدريب حر"}
         config={session.config}
         feedback={session.feedback}
         autoStart
@@ -56,13 +59,44 @@ export function PracticeBuilder() {
           e.preventDefault();
           setSession({
             key: Date.now(),
-            config: { count, topics, difficulties, timeLimitMinutes: timed ? count : undefined },
+            config: {
+              count,
+              topics: activeTopics,
+              difficulties,
+              timeLimitMinutes: timed ? count : undefined,
+              pool: shapesOnly ? SHAPE_QUESTIONS : undefined,
+            },
             feedback: timed ? "end" : feedback,
           });
         }}
         className="space-y-6"
       >
         <fieldset>
+          <legend className="mb-2 font-extrabold">نوع الأسئلة</legend>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { id: false, label: "كل الأسئلة" },
+              { id: true, label: "🔷 أسئلة الأشكال فقط" },
+            ].map((o) => (
+              <label
+                key={String(o.id)}
+                className={`cursor-pointer rounded-xl px-4 py-2 font-bold ring-1 ${
+                  shapesOnly === o.id ? "bg-blue-600 text-white ring-blue-600" : "bg-white ring-slate-300"
+                }`}
+              >
+                <input type="radio" name="type" checked={shapesOnly === o.id} onChange={() => setShapesOnly(o.id)} className="sr-only" />
+                {o.label}
+              </label>
+            ))}
+          </div>
+          {shapesOnly && (
+            <p className="mt-2 text-sm text-slate-500">
+              أسئلة مرسومة: سلاسل وجداول أشكال، وتناظر، ودوران ومرايا، وطيّ ورق، وعدّ أشكال، وشبكات مكعّب.
+            </p>
+          )}
+        </fieldset>
+
+        <fieldset disabled={shapesOnly} className={shapesOnly ? "opacity-50" : undefined}>
           <legend className="mb-2 font-extrabold">المجالات</legend>
           <div className="grid gap-2 sm:grid-cols-2">
             {TOPICS.map((t) => (
@@ -154,11 +188,11 @@ export function PracticeBuilder() {
         </fieldset>
 
         <div className="flex flex-wrap items-center gap-3">
-          <Button type="submit" disabled={topics.length === 0}>
+          <Button type="submit" disabled={activeTopics.length === 0}>
             ابدأ التدريب
           </Button>
           <span className="text-sm text-slate-500">
-            {topics.length === 0 ? "اختر مجالًا واحدًا على الأقل." : `في بنك الأسئلة ${formatNumber(available)} سؤالًا في المجالات المختارة.`}
+            {activeTopics.length === 0 ? "اختر مجالًا واحدًا على الأقل." : `في بنك الأسئلة ${formatNumber(available)} سؤالًا في المجالات المختارة.`}
           </span>
         </div>
       </form>

@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { QuizRunner } from "@/components/QuizRunner";
 import { Button, Card, Notice } from "@/components/ui";
+import { SHAPE_QUESTIONS } from "@/data/questions";
 import { TOPIC_IDS } from "@/data/topics";
 import { formatNumber, questionsCount } from "@/lib/format";
-import type { AttemptKind, Difficulty } from "@/lib/types";
+import type { AttemptKind, Difficulty, Question } from "@/lib/types";
 
 interface ExamType {
+  id: string;
   kind: AttemptKind;
   title: string;
   description: string;
@@ -15,10 +17,12 @@ interface ExamType {
   count: number;
   minutes: number;
   difficulties: Difficulty[];
+  pool?: readonly Question[];
 }
 
 export const EXAM_TYPES: ExamType[] = [
   {
+    id: "mini",
     kind: "mini-exam",
     title: "اختبار قصير شامل",
     description: "3 أسئلة من كل مجال بمستويات متدرجة. مناسب للتدريب السريع.",
@@ -28,6 +32,7 @@ export const EXAM_TYPES: ExamType[] = [
     difficulties: [1, 2, 3],
   },
   {
+    id: "full",
     kind: "exam",
     title: "اختبار شامل كامل",
     description: "5 أسئلة من كل مجال بمستويات متدرجة. يحاكي أجواء اختبار طويل.",
@@ -35,6 +40,17 @@ export const EXAM_TYPES: ExamType[] = [
     count: 30,
     minutes: 40,
     difficulties: [1, 2, 3],
+  },
+  {
+    id: "shapes",
+    kind: "mini-exam",
+    title: "اختبار الأشكال",
+    description: "أسئلة مرسومة فقط: سلاسل وجداول أشكال، ودوران ومرايا، وطيّ ورق، وشبكات مكعّب.",
+    icon: "🔷",
+    count: 20,
+    minutes: 25,
+    difficulties: [1, 2, 3],
+    pool: SHAPE_QUESTIONS,
   },
 ];
 
@@ -49,9 +65,10 @@ export function ExamCenter() {
         title={active.type.title}
         config={{
           count: active.type.count,
-          topics: TOPIC_IDS,
+          topics: active.type.pool ? [...new Set(active.type.pool.map((q) => q.topic))] : TOPIC_IDS,
           difficulties: active.type.difficulties,
           timeLimitMinutes: active.type.minutes,
+          pool: active.type.pool,
         }}
         feedback="end"
         autoStart
@@ -62,20 +79,20 @@ export function ExamCenter() {
 
   return (
     <div className="space-y-5">
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         {EXAM_TYPES.map((t) => (
-          <Card key={t.kind} className="flex flex-col">
+          <Card key={t.id} className="flex flex-col">
             <div className="text-4xl" aria-hidden="true">
               {t.icon}
             </div>
             <h2 className="mt-2 text-xl font-extrabold">{t.title}</h2>
             <p className="mt-1 leading-7 text-slate-600">{t.description}</p>
-            <ul className="mt-3 space-y-1 text-sm text-slate-600">
+            <ul className="mt-3 mb-5 space-y-1 text-sm text-slate-600">
               <li>📝 {questionsCount(t.count)}</li>
               <li>⏱️ {formatNumber(t.minutes)} دقيقة</li>
               <li>💬 الإجابات والشروح والتقرير بعد التسليم</li>
             </ul>
-            <Button className="mt-5 self-start" onClick={() => setActive({ type: t, key: Date.now() })}>
+            <Button className="mt-auto self-start" onClick={() => setActive({ type: t, key: Date.now() })}>
               ابدأ الاختبار
             </Button>
           </Card>

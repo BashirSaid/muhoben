@@ -3,6 +3,7 @@
 import type { Question } from "@/lib/types";
 import { RichText } from "./RichText";
 import { Figure } from "./figures";
+import { GlyphSvg, VisualStem } from "./visual/ShapeVisual";
 import { DifficultyBadge, TopicBadge } from "./ui";
 
 export const OPTION_LETTERS = ["أ", "ب", "ج", "د", "هـ", "و"];
@@ -37,8 +38,13 @@ export function QuestionView({ question, order, number, total, selected, onSelec
       </p>
 
       {question.figure && <Figure id={question.figure} />}
+      {question.visual && <VisualStem visual={question.visual} />}
 
-      <div role="radiogroup" aria-labelledby={`${groupId}-prompt`} className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div
+        role="radiogroup"
+        aria-labelledby={`${groupId}-prompt`}
+        className={`mt-4 grid gap-3 ${question.optionVisuals ? "grid-cols-2 sm:grid-cols-4" : "sm:grid-cols-2"}`}
+      >
         {order.map((original, displayIdx) => {
           const isSelected = selected === original;
           const isCorrect = original === question.answer;
@@ -68,9 +74,17 @@ export function QuestionView({ question, order, number, total, selected, onSelec
               >
                 {OPTION_LETTERS[displayIdx]}
               </span>
-              <span className="flex-1 font-semibold text-slate-800">
-                <RichText text={question.options[original]} />
-              </span>
+              {question.optionVisuals ? (
+                <span className="flex flex-1 justify-center">
+                  <span className="block w-full max-w-24">
+                    <GlyphSvg glyph={question.optionVisuals[original]} label={question.options[original]} />
+                  </span>
+                </span>
+              ) : (
+                <span className="flex-1 font-semibold text-slate-800">
+                  <RichText text={question.options[original]} />
+                </span>
+              )}
               {revealed && isCorrect && <span aria-label="الإجابة الصحيحة">✅</span>}
               {revealed && isSelected && !isCorrect && <span aria-label="إجابتك">❌</span>}
             </button>
@@ -103,6 +117,11 @@ export function Explanation({ question, selected }: { question: Question; select
         <span className="font-bold">الإجابة الصحيحة: </span>
         <RichText text={question.options[question.answer]} />
       </p>
+      {question.optionVisuals && (
+        <span className="mt-2 block h-20 w-20 rounded-lg bg-white p-1 ring-1 ring-emerald-300">
+          <GlyphSvg glyph={question.optionVisuals[question.answer]} />
+        </span>
+      )}
       <p className="mt-1 text-slate-800">
         <span className="font-bold">الشرح: </span>
         <RichText text={question.explanation} />

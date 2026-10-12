@@ -91,3 +91,21 @@ test("هوية المنصة: الاسم والشعار وبيانات التوا
   await expect(footer.getByRole("link", { name: /tasnimsystems@gmail\.com/ })).toHaveAttribute("href", "mailto:tasnimsystems@gmail.com");
   await expect(footer.getByRole("link", { name: /\+972/ })).toHaveAttribute("href", "tel:+972547297817");
 });
+
+test("أسئلة الأشكال: التدريب الخاص بها واختبار الأشكال", async ({ page }) => {
+  await page.goto("practice/?type=shapes");
+  await expect(page.getByRole("radio", { name: /أسئلة الأشكال فقط/ })).toBeChecked();
+  await page.getByRole("button", { name: "ابدأ التدريب" }).click();
+  await expect(page.getByText("السؤال 1 من 10")).toBeVisible();
+  // السؤال أو خياراته مرسومة
+  expect(await page.locator("main svg").count()).toBeGreaterThan(0);
+  await page.getByRole("radio").first().click();
+  await page.getByRole("button", { name: "تحقّق من الإجابة" }).click();
+  await expect(page.getByText("الإجابة الصحيحة:").first()).toBeVisible();
+
+  await page.goto("exam/");
+  const card = page.locator("section", { hasText: "اختبار الأشكال" });
+  await card.getByRole("button", { name: "ابدأ الاختبار" }).click();
+  await expect(page.getByRole("timer")).toBeVisible();
+  await expect(page.getByText("السؤال 1 من 20")).toBeVisible();
+});

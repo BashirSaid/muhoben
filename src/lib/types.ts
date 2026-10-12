@@ -35,6 +35,31 @@ export type QuestionSource =
   | { kind: "original" }
   | { kind: "licensed"; attribution: string; license: string };
 
+/** ألوان الرسوم البرمجية لأسئلة الأشكال */
+export type Paint = "black" | "white" | "gray" | "blue" | "light" | "none";
+
+/** عناصر رسم بسيطة داخل مربع إحداثيات 100×100 */
+export type Shape =
+  | { t: "circle"; cx: number; cy: number; r: number; fill?: Paint; dash?: boolean }
+  | { t: "rect"; x: number; y: number; w: number; h: number; fill?: Paint; dash?: boolean }
+  | { t: "poly"; pts: number[]; fill?: Paint }
+  | { t: "line"; x1: number; y1: number; x2: number; y2: number; dash?: boolean }
+  | { t: "path"; d: string; fill?: Paint };
+
+/** شكل واحد (خانة في سلسلة أو جدول، أو خيار إجابة). يُدار حول مركزه بالدرجات مع عقارب الساعة. */
+export interface Glyph {
+  shapes: Shape[];
+  rotate?: number;
+}
+
+/** طريقة عرض الشكل في نص السؤال. null = الخانة المجهولة (؟). */
+export type Visual =
+  | { layout: "sequence"; cells: (Glyph | null)[] }
+  | { layout: "matrix"; cols: number; cells: (Glyph | null)[] }
+  | { layout: "analogy"; cells: [Glyph, Glyph, Glyph] }
+  | { layout: "mirror"; glyph: Glyph }
+  | { layout: "single"; glyph: Glyph };
+
 export interface Question {
   id: string;
   topic: TopicId;
@@ -42,7 +67,11 @@ export interface Question {
   /** نص السؤال. المقاطع بين علامتي $...$ تُعرض من اليسار إلى اليمين (تعابير رياضية). */
   prompt: string;
   figure?: FigureId;
+  /** رسم السؤال (أسئلة الأشكال المرسومة من البيانات) */
+  visual?: Visual;
   options: string[];
+  /** إذا وُجد: كل خيار رسم، ونص options يصبح وصفًا له لقارئات الشاشة. */
+  optionVisuals?: Glyph[];
   /** رقم الخيار الصحيح (يبدأ من 0) بحسب ترتيب options الأصلي. */
   answer: number;
   explanation: string;

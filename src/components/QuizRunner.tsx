@@ -5,7 +5,7 @@ import { QUESTION_BANK } from "@/data/questions";
 import { buildAttempt, prepareQuestions, selectQuestions, type PreparedQuestion } from "@/lib/quiz";
 import { createRng, randomSeed } from "@/lib/random";
 import { formatClock, formatNumber, newId, questionsCount } from "@/lib/format";
-import type { AttemptKind, Difficulty, QuizAttempt, TopicId } from "@/lib/types";
+import type { AttemptKind, Difficulty, Question, QuizAttempt, TopicId } from "@/lib/types";
 import { useProgress } from "./ProgressProvider";
 import { QuestionView, OPTION_LETTERS } from "./QuestionView";
 import { QuizReport } from "./QuizReport";
@@ -16,6 +16,8 @@ export interface QuizConfig {
   topics: readonly TopicId[];
   difficulties: readonly Difficulty[];
   timeLimitMinutes?: number;
+  /** مجموعة أسئلة خاصة (مثل أسئلة الأشكال فقط). الافتراضي: بنك الأسئلة كاملًا. */
+  pool?: readonly Question[];
 }
 
 interface Props {
@@ -62,7 +64,7 @@ export function QuizRunner({
   const start = useCallback(() => {
     const rng = createRng(randomSeed());
     const questions = selectQuestions({
-      pool: QUESTION_BANK,
+      pool: config.pool ?? QUESTION_BANK,
       count: config.count,
       topics: config.topics,
       difficulties: config.difficulties,
