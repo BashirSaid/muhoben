@@ -2,6 +2,7 @@ import type { Question, TopicId } from "@/lib/types";
 import { logicQuestions } from "./logic";
 import { patternQuestions } from "./patterns";
 import { verbalQuestions } from "./verbal";
+import { verbalQuestions2 } from "./verbal-2";
 import { quantitativeQuestions } from "./quantitative";
 import { spatialQuestions } from "./spatial";
 import { problemSolvingQuestions } from "./problem-solving";
@@ -29,6 +30,7 @@ export const QUESTION_BANK: Question[] = [
   ...logicQuestions,
   ...patternQuestions,
   ...verbalQuestions,
+  ...verbalQuestions2,
   ...quantitativeQuestions,
   ...spatialQuestions,
   ...problemSolvingQuestions,
