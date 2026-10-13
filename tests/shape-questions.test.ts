@@ -201,3 +201,13 @@ describe("أسئلة الأشكال: الدفعة الثالثة", () => {
     expect(gComplement([0], 2)).toEqual([1, 2, 3]);
   });
 });
+
+describe("أسئلة الأشكال: الدفعة الرابعة (مراجَعة من أداة ذكاء اصطناعي)", () => {
+  it("المنظر من الأعلى: الإجابة وحدها على شكل زاوية، ولا خيار آخر هو دوران لها", async () => {
+    const { BATCH4_DATA } = await import("@/data/questions/shapes/batch4");
+    const fp = BATCH4_DATA.FOOTPRINT;
+    expect(fp.length).toBe(3); // ثلاثة أعمدة مهما كان الارتفاع
+    const others = [[0, 1, 2], [0, 1], [0, 1, 3, 4]];
+    for (const o of others) for (const r of rotations(fp)) expect(sameSet(r, o)).toBe(false);
+  });
+});
