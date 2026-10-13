@@ -211,3 +211,30 @@ describe("أسئلة الأشكال: الدفعة الرابعة (مراجَعة
     for (const o of others) for (const r of rotations(fp)) expect(sameSet(r, o)).toBe(false);
   });
 });
+
+describe("أسئلة الأشكال: الدفعة الخامسة (مراجَعة من أداة ذكاء اصطناعي)", () => {
+  it("المعرّفات لا تتعارض مع الدفعات السابقة", async () => {
+    const ids = QUESTION_BANK.map((q) => q.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("الرمز السري: ترتيب العمليتين يغيّر النتيجة (فالسؤال غير ملتبس)", async () => {
+    const { BATCH5_DATA } = await import("@/data/questions/shapes/batch5");
+    const s = BATCH5_DATA.CODE;
+    expect(sameSet(mirror(rot90(s)), rot90(mirror(s)))).toBe(false);
+  });
+
+  it("جدول الدوران: الأشكال غير متماثلة فلا تتطابق الخيارات", async () => {
+    const { BATCH5_DATA } = await import("@/data/questions/shapes/batch5");
+    for (const r of [BATCH5_DATA.R1, BATCH5_DATA.R2, BATCH5_DATA.R3]) {
+      expect(sameSet(rot180(r), r)).toBe(false);
+      expect(sameSet(rot180(r), mirror(r))).toBe(false);
+    }
+  });
+
+  it("المنظر من الأعلى للمجسّم المسطح: لا مشتّت هو دوران للإجابة", async () => {
+    const { BATCH5_DATA } = await import("@/data/questions/shapes/batch5");
+    for (const o of [[0, 1, 2], [0, 3, 6], [0, 1, 2, 5]])
+      for (const r of rotations(BATCH5_DATA.FLAT_FOOTPRINT)) expect(sameSet(r, o)).toBe(false);
+  });
+});
