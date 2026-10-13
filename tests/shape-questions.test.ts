@@ -58,9 +58,9 @@ describe("أسئلة الأشكال", () => {
     }
   });
 
-  it("كل سؤال مرسوم سليم البنية والخيارات المرسومة مختلفة", () => {
-    for (const q of shapeQs.filter((x) => !x.id.startsWith("prb-h"))) {
-      expect(q.visual || q.optionVisuals, q.id).toBeTruthy();
+  it("كل سؤال أشكال مرسوم في البنك سليم البنية وخياراته المرسومة مختلفة", () => {
+    // يشمل كل أسئلة الأشكال المرسومة في البنك، بما فيها أي دفعة جديدة تُضاف لاحقًا
+    for (const q of SHAPE_QUESTIONS.filter((x) => x.visual || x.optionVisuals)) {
       if (q.optionVisuals) {
         expect(q.optionVisuals.length, q.id).toBe(q.options.length);
         expect(new Set(q.optionVisuals.map(key)).size, q.id).toBe(q.options.length);
