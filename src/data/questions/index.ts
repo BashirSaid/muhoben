@@ -4,6 +4,7 @@ import { patternQuestions } from "./patterns";
 import { verbalQuestions } from "./verbal";
 import { verbalQuestions2 } from "./verbal-2";
 import { quantitativeQuestions } from "./quantitative";
+import { quantitativeQuestions2 } from "./quantitative-2";
 import { spatialQuestions } from "./spatial";
 import { problemSolvingQuestions } from "./problem-solving";
 import { patternShapeQuestions, spatialShapeQuestions } from "./shapes";
@@ -32,6 +33,7 @@ export const QUESTION_BANK: Question[] = [
   ...verbalQuestions,
   ...verbalQuestions2,
   ...quantitativeQuestions,
+  ...quantitativeQuestions2,
   ...spatialQuestions,
   ...problemSolvingQuestions,
   ...patternShapeQuestions,
