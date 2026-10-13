@@ -314,3 +314,68 @@ export function pulleys(): Glyph {
     ],
   };
 }
+
+// =====================================================================
+// إضافات الدفعة الثالثة
+// =====================================================================
+
+/** عمليات على خانات شبكة n×n */
+export const gMirror = (a: readonly number[], n: number) => sorted(a.map((i) => Math.floor(i / n) * n + (n - 1 - (i % n))));
+export const gFlipV = (a: readonly number[], n: number) => sorted(a.map((i) => (n - 1 - Math.floor(i / n)) * n + (i % n)));
+export const gRot90 = (a: readonly number[], n: number) => sorted(a.map((i) => (i % n) * n + (n - 1 - Math.floor(i / n))));
+export const gComplement = (a: readonly number[], n: number) =>
+  sorted(Array.from({ length: n * n }, (_, i) => i).filter((i) => !a.includes(i)));
+
+/** سهم صغير في موضع (cx, cy) بزاوية deg ومقياس s */
+export function arrowAt(cx: number, cy: number, deg: number, s = 0.45, fill: Paint = "black"): Shape {
+  const base = [44, 86, 56, 86, 56, 44, 72, 44, 50, 14, 28, 44, 44, 44];
+  const a = (deg * Math.PI) / 180;
+  const cos = Math.cos(a), sin = Math.sin(a);
+  const pts: number[] = [];
+  for (let i = 0; i < base.length; i += 2) {
+    const x = (base[i] - 50) * s, y = (base[i + 1] - 50) * s;
+    pts.push(round(cx + x * cos - y * sin), round(cy + x * sin + y * cos));
+  }
+  return { t: "poly", pts, fill };
+}
+
+/** رسم من رؤوس وأضلاع (لأسئلة الرسم دون رفع القلم) */
+export interface LineGraph {
+  nodes: Record<string, [number, number]>;
+  edges: [string, string][];
+}
+export const graphGlyph = (gr: LineGraph): Glyph => ({
+  shapes: gr.edges.map(([a, b]) => ({
+    t: "line" as const,
+    x1: gr.nodes[a][0], y1: gr.nodes[a][1], x2: gr.nodes[b][0], y2: gr.nodes[b][1],
+  })),
+});
+/** عدد الرؤوس ذات الدرجة الفردية: يمكن الرسم دون رفع القلم إذا كان 0 أو 2 */
+export function oddVertices(gr: LineGraph): number {
+  const deg: Record<string, number> = {};
+  for (const [a, b] of gr.edges) {
+    deg[a] = (deg[a] ?? 0) + 1;
+    deg[b] = (deg[b] ?? 0) + 1;
+  }
+  return Object.values(deg).filter((d) => d % 2 === 1).length;
+}
+
+/** شكل مضلّع بداخله n نقاط */
+export function polyWithDots(sides: number, n: number): Glyph {
+  const pts: Shape[] = [];
+  for (let i = 0; i < n; i++) {
+    const [x, y] = onCircle(50, 52, n === 1 ? 0 : 13, (360 * i) / n);
+    pts.push(dot(x, y, 4.5));
+  }
+  return { shapes: [ngon(sides, 40, "white", -90, 50, 52), ...pts] };
+}
+
+/** شبكة شوارع cols×rows مع نقطة بداية (خضراء، أسفل اليسار) ونهاية (حمراء، أعلى اليمين) */
+export function streets(cols: number, rows: number): Glyph {
+  const cell = 80 / Math.max(cols, rows);
+  const ox = 50 - (cell * cols) / 2, oy = 50 - (cell * rows) / 2;
+  const g = grid([], cols, rows, "white");
+  return {
+    shapes: [...g.shapes, dot(round(ox), round(oy + rows * cell), 6, "green"), dot(round(ox + cols * cell), round(oy), 6, "red")],
+  };
+}

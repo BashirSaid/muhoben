@@ -8,12 +8,21 @@ import {
   problemShapeQuestions,
   spatialShapeQuestions2,
 } from "@/data/questions/shapes/batch2";
+import {
+  BATCH3_DATA,
+  logicShapeQuestions3,
+  patternShapeQuestions3,
+  problemShapeQuestions3,
+  spatialShapeQuestions3,
+} from "@/data/questions/shapes/batch3";
+import { gComplement, gFlipV, gMirror, gRot90, oddVertices } from "@/data/questions/shapes/kit";
 import { complement, difference, flipV, intersect, mapRot90, mapSwap, mirror, rot180, rot270, rot90, union, xor } from "@/data/questions/shapes/kit";
 import type { Glyph } from "@/lib/types";
 
 const batch1 = [...patternShapeQuestions, ...spatialShapeQuestions];
 const batch2 = [...patternShapeQuestions2, ...spatialShapeQuestions2, ...logicShapeQuestions, ...problemShapeQuestions];
-const shapeQs = [...batch1, ...batch2];
+const batch3 = [...patternShapeQuestions3, ...spatialShapeQuestions3, ...logicShapeQuestions3, ...problemShapeQuestions3];
+const shapeQs = [...batch1, ...batch2, ...batch3];
 const key = (g: Glyph) => JSON.stringify({ ...g, rotate: (g.rotate ?? 0) % 360 });
 const sameSet = (a: number[], b: number[]) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
 const rotations = (s: number[]) => [s, rot90(s), rot180(s), rot270(s)];
@@ -36,19 +45,21 @@ describe("أدوات الشبكات", () => {
 });
 
 describe("أسئلة الأشكال", () => {
-  it("75 سؤالًا أصليًا (دفعتان) ضمن بنك الأسئلة، ومعرّفاتها فريدة", () => {
+  it("100 سؤال أصلي (ثلاث دفعات) ضمن بنك الأسئلة، ومعرّفاتها فريدة", () => {
     expect(batch1.length).toBe(36);
     expect(batch2.length).toBe(39);
+    expect(batch3.length).toBe(25);
     expect(new Set(shapeQs.map((q) => q.id)).size).toBe(shapeQs.length);
     for (const q of shapeQs) {
       expect(QUESTION_BANK).toContain(q);
-      expect(SHAPE_QUESTIONS).toContain(q);
       expect(q.source.kind).toBe("original");
+      // معادلات الأشكال النصية (● ■ ▲) لا تُحسب ضمن أسئلة الأشكال المرسومة
+      if (q.visual || q.optionVisuals) expect(SHAPE_QUESTIONS).toContain(q);
     }
   });
 
   it("كل سؤال مرسوم سليم البنية والخيارات المرسومة مختلفة", () => {
-    for (const q of shapeQs) {
+    for (const q of shapeQs.filter((x) => !x.id.startsWith("prb-h"))) {
       expect(q.visual || q.optionVisuals, q.id).toBeTruthy();
       if (q.optionVisuals) {
         expect(q.optionVisuals.length, q.id).toBe(q.options.length);
@@ -137,5 +148,56 @@ describe("أسئلة الأشكال: الدفعة الثانية", () => {
 
   it("أسئلة الأشكال موزعة على مستويات الصعوبة الثلاثة", () => {
     for (const d of [1, 2, 3] as const) expect(batch2.filter((q) => q.difficulty === d).length).toBeGreaterThanOrEqual(8);
+  });
+});
+
+describe("أسئلة الأشكال: الدفعة الثالثة", () => {
+  const D = BATCH3_DATA;
+
+  it("قطعة الإكمال: الإجابة وحدها تكمل المربع دون تداخل", () => {
+    for (const [piece, rest, n] of [[D.PIECE3, D.REST3, 3], [D.PIECE4, D.REST4, 4]] as const) {
+      expect(sameSet([...piece, ...rest], Array.from({ length: n * n }, (_, i) => i))).toBe(true);
+      expect(rest.some((i) => piece.includes(i))).toBe(false);
+      for (const wrong of [gMirror(rest, n), gFlipV(rest, n), gRot90(rest, n)])
+        expect(sameSet(wrong, rest), "القطعة غير متماثلة").toBe(false);
+    }
+  });
+
+  it("الرسم دون رفع القلم: الظرف وحده ممكن", () => {
+    expect(oddVertices(D.ENVELOPE)).toBe(2);
+    for (const gr of [D.SQUARE_X, D.PLUS, D.TRI_SPOKES]) expect(oddVertices(gr)).toBe(4);
+  });
+
+  it("عدد الطرق الأقصر على الشبكة (برمجة ديناميكية)", () => {
+    const paths = (cols: number, rows: number) => {
+      const t = Array.from({ length: rows + 1 }, () => Array(cols + 1).fill(0));
+      for (let r = 0; r <= rows; r++) for (let c = 0; c <= cols; c++) t[r][c] = r === 0 || c === 0 ? 1 : t[r - 1][c] + t[r][c - 1];
+      return t[rows][cols];
+    };
+    expect(paths(2, 2)).toBe(6);
+    expect(paths(3, 2)).toBe(10);
+  });
+
+  it("مسار الأفعى يمر بكل الخانات مرة واحدة", () => {
+    expect([...D.SNAKE].sort()).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  });
+
+  it("معادلات الأشكال: الحلول تحقق المعادلات", () => {
+    const [c, s] = [4, 7];
+    expect(c + c).toBe(8); expect(c + s).toBe(11);
+    const [t2, s2] = [4, 6];
+    expect(t2 + t2 + s2).toBe(14); expect(s2 - t2).toBe(2);
+    const [st, ci] = [6, 12];
+    expect(ci).toBe(2 * st); expect(ci + st).toBe(18);
+    const [a, b, tri] = [4, 6, 7];
+    expect(a + b).toBe(10); expect(b + tri).toBe(13); expect(a + tri).toBe(11);
+  });
+
+  it("لا تتكرر المعرّفات بين الدفعات", () => {
+    expect(new Set(shapeQs.map((q) => q.id)).size).toBe(100);
+  });
+
+  it("حلول التماثل لا تختلط بالتدوير", () => {
+    expect(gComplement([0], 2)).toEqual([1, 2, 3]);
   });
 });

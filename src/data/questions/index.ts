@@ -12,6 +12,12 @@ import {
   problemShapeQuestions,
   spatialShapeQuestions2,
 } from "./shapes/batch2";
+import {
+  logicShapeQuestions3,
+  patternShapeQuestions3,
+  problemShapeQuestions3,
+  spatialShapeQuestions3,
+} from "./shapes/batch3";
 
 /**
  * بنك الأسئلة الكامل. جميع الأسئلة أصلية من إعداد المنصة
@@ -30,6 +36,10 @@ export const QUESTION_BANK: Question[] = [
   ...spatialShapeQuestions2,
   ...logicShapeQuestions,
   ...problemShapeQuestions,
+  ...patternShapeQuestions3,
+  ...spatialShapeQuestions3,
+  ...logicShapeQuestions3,
+  ...problemShapeQuestions3,
 ];
 
 const byId = new Map(QUESTION_BANK.map((q) => [q.id, q]));
