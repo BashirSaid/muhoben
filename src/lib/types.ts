@@ -36,7 +36,7 @@ export type QuestionSource =
   | { kind: "licensed"; attribution: string; license: string };
 
 /** ألوان الرسوم البرمجية لأسئلة الأشكال */
-export type Paint = "black" | "white" | "gray" | "blue" | "light" | "none";
+export type Paint = "black" | "white" | "gray" | "blue" | "light" | "red" | "green" | "yellow" | "none";
 
 /** عناصر رسم بسيطة داخل مربع إحداثيات 100×100 */
 export type Shape =
@@ -57,7 +57,9 @@ export type Visual =
   | { layout: "sequence"; cells: (Glyph | null)[] }
   | { layout: "matrix"; cols: number; cells: (Glyph | null)[] }
   | { layout: "analogy"; cells: [Glyph, Glyph, Glyph] }
-  | { layout: "mirror"; glyph: Glyph }
+  | { layout: "mirror"; glyph: Glyph; axis?: "vertical" | "horizontal" }
+  /** مجموعة أشكال تُعرض معًا (أمثلة على قاعدة، أو موازين) */
+  | { layout: "group"; cells: Glyph[]; caption?: string }
   | { layout: "single"; glyph: Glyph };
 
 export interface Question {

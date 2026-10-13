@@ -8,6 +8,9 @@ const PAINT: Record<Paint, string> = {
   gray: "#94a3b8",
   blue: "#1d6fd8",
   light: "#dbeafe",
+  red: "#ef4444",
+  green: "#22c55e",
+  yellow: "#facc15",
   none: "none",
 };
 const STROKE = "#1e293b";
@@ -118,12 +121,36 @@ export function VisualStem({ visual }: { visual: Visual }) {
     }
     case "mirror": {
       const size = sizeFor(3);
+      if (visual.axis === "horizontal")
+        return (
+          <figure className={wrap} aria-label="شكل ومرآة أفقية تحته">
+            <div className="flex flex-col items-center gap-3">
+              <Cell glyph={visual.glyph} size={size} />
+              <div className="w-32 border-t-4 border-dashed border-sky-500" aria-hidden="true" />
+              <Cell glyph={null} size={size} />
+            </div>
+          </figure>
+        );
       return (
         <figure className={wrap} aria-label="شكل ومرآة عمودية">
           <div className="flex items-center justify-center gap-3">
             <Cell glyph={visual.glyph} size={size} />
             <div className="h-28 border-s-4 border-dashed border-sky-500" aria-hidden="true" />
             <Cell glyph={null} size={size} />
+          </div>
+        </figure>
+      );
+    }
+    case "group": {
+      // خانات أكبر عندما تكون قليلة (مثل الموازين)
+      const size = visual.cells.length <= 2 ? "min(40vw, 170px)" : sizeFor(Math.max(visual.cells.length, 3));
+      return (
+        <figure className={wrap}>
+          {visual.caption && <figcaption className="mb-3 text-center text-sm font-bold text-slate-600">{visual.caption}</figcaption>}
+          <div className="flex flex-wrap items-start justify-center gap-3">
+            {visual.cells.map((c, i) => (
+              <Cell key={i} glyph={c} size={size} />
+            ))}
           </div>
         </figure>
       );

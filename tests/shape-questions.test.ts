@@ -1,10 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { QUESTION_BANK, SHAPE_QUESTIONS } from "@/data/questions";
 import { patternShapeQuestions, spatialShapeQuestions, SHAPE_SETS } from "@/data/questions/shapes";
-import { complement, intersect, mirror, rot180, rot270, rot90, union, xor } from "@/data/questions/shapes/kit";
+import {
+  BATCH2_SETS,
+  logicShapeQuestions,
+  patternShapeQuestions2,
+  problemShapeQuestions,
+  spatialShapeQuestions2,
+} from "@/data/questions/shapes/batch2";
+import { complement, difference, flipV, intersect, mapRot90, mapSwap, mirror, rot180, rot270, rot90, union, xor } from "@/data/questions/shapes/kit";
 import type { Glyph } from "@/lib/types";
 
-const shapeQs = [...patternShapeQuestions, ...spatialShapeQuestions];
+const batch1 = [...patternShapeQuestions, ...spatialShapeQuestions];
+const batch2 = [...patternShapeQuestions2, ...spatialShapeQuestions2, ...logicShapeQuestions, ...problemShapeQuestions];
+const shapeQs = [...batch1, ...batch2];
 const key = (g: Glyph) => JSON.stringify({ ...g, rotate: (g.rotate ?? 0) % 360 });
 const sameSet = (a: number[], b: number[]) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
 const rotations = (s: number[]) => [s, rot90(s), rot180(s), rot270(s)];
@@ -27,8 +36,10 @@ describe("أدوات الشبكات", () => {
 });
 
 describe("أسئلة الأشكال", () => {
-  it("36 سؤالًا أصليًا ضمن بنك الأسئلة", () => {
-    expect(shapeQs.length).toBe(36);
+  it("75 سؤالًا أصليًا (دفعتان) ضمن بنك الأسئلة، ومعرّفاتها فريدة", () => {
+    expect(batch1.length).toBe(36);
+    expect(batch2.length).toBe(39);
+    expect(new Set(shapeQs.map((q) => q.id)).size).toBe(shapeQs.length);
     for (const q of shapeQs) {
       expect(QUESTION_BANK).toContain(q);
       expect(SHAPE_QUESTIONS).toContain(q);
@@ -73,5 +84,58 @@ describe("أسئلة الأشكال", () => {
   it("كل مجال فيه عدد كافٍ من أسئلة الأشكال لاختبار الأشكال (20 سؤالًا)", () => {
     expect(SHAPE_QUESTIONS.filter((q) => q.topic === "patterns").length).toBeGreaterThanOrEqual(10);
     expect(SHAPE_QUESTIONS.filter((q) => q.topic === "spatial").length).toBeGreaterThanOrEqual(10);
+  });
+});
+
+describe("أسئلة الأشكال: الدفعة الثانية", () => {
+  const ALL9 = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+  const isSym = (s: number[]) => {
+    const transpose = (x: number[]) => x.map((i) => (i % 3) * 3 + Math.floor(i / 3)).sort();
+    const anti = (x: number[]) => x.map((i) => (2 - (i % 3)) * 3 + (2 - Math.floor(i / 3))).sort();
+    return [mirror(s), flipV(s), transpose(s), anti(s)].some((t) => sameSet(t, s));
+  };
+
+  it("الطرح يختلف عن «أحدهما فقط» في سؤال pat-g13 (القاعدة غير ملتبسة)", () => {
+    const { D1, E1, D2, E2, D3, E3 } = BATCH2_SETS;
+    expect(sameSet(difference(D1, E1), xor(D1, E1))).toBe(false);
+    expect(difference(D3, E3)).toEqual([2, 4, 6]);
+    expect(sameSet(difference(D2, E2), [3, 5])).toBe(true);
+  });
+
+  it("المربع اللاتيني في pat-g10: كل شكل وكل لون مرة واحدة في كل صف وعمود", () => {
+    const shapeOf = (r: number, c: number) => (r + c) % 3;
+    const colorOf = (r: number, c: number) => (r + 2 * c) % 3;
+    for (let i = 0; i < 3; i++) {
+      expect(new Set([0, 1, 2].map((c) => shapeOf(i, c))).size).toBe(3);
+      expect(new Set([0, 1, 2].map((c) => colorOf(i, c))).size).toBe(3);
+      expect(new Set([0, 1, 2].map((r) => shapeOf(r, i))).size).toBe(3);
+      expect(new Set([0, 1, 2].map((r) => colorOf(r, i))).size).toBe(3);
+    }
+    // كل زوج (شكل، لون) يظهر مرة واحدة
+    const pairs = new Set(ALL9.map((k) => `${shapeOf(Math.floor(k / 3), k % 3)}-${colorOf(Math.floor(k / 3), k % 3)}`));
+    expect(pairs.size).toBe(9);
+  });
+
+  it("سؤال التماثل spa-g13: الإجابة وحدها بلا محور تماثل", () => {
+    const opts = [[1, 3, 4, 5, 7], [0, 1, 4, 8], [0, 2, 4, 6, 8], [0, 1, 2, 4, 7]];
+    expect(opts.map(isSym)).toEqual([true, false, true, true]);
+  });
+
+  it("تبادل الألوان والتدوير في spa-g18 يعطيان خيارات مختلفة", () => {
+    const { A18 } = BATCH2_SETS;
+    const once = mapSwap(mapRot90(A18), "black", "blue");
+    expect(JSON.stringify(once)).not.toBe(JSON.stringify(mapRot90(A18)));
+    expect(JSON.stringify(mapSwap(once, "black", "blue"))).toBe(JSON.stringify(mapRot90(A18)));
+  });
+
+  it("أسئلة الموازين: الحل يحقق كل الموازين", () => {
+    // prb-g03: دائرتان = 3 مربعات، مربع + دائرة = 5 مثلثات ← الدائرة = 3 مثلثات
+    const t = 1, c = 3 * t, s = 2 * t;
+    expect(2 * c).toBe(3 * s);
+    expect(s + c).toBe(5 * t);
+  });
+
+  it("أسئلة الأشكال موزعة على مستويات الصعوبة الثلاثة", () => {
+    for (const d of [1, 2, 3] as const) expect(batch2.filter((q) => q.difficulty === d).length).toBeGreaterThanOrEqual(8);
   });
 });

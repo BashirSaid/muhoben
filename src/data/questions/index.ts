@@ -6,6 +6,12 @@ import { quantitativeQuestions } from "./quantitative";
 import { spatialQuestions } from "./spatial";
 import { problemSolvingQuestions } from "./problem-solving";
 import { patternShapeQuestions, spatialShapeQuestions } from "./shapes";
+import {
+  logicShapeQuestions,
+  patternShapeQuestions2,
+  problemShapeQuestions,
+  spatialShapeQuestions2,
+} from "./shapes/batch2";
 
 /**
  * بنك الأسئلة الكامل. جميع الأسئلة أصلية من إعداد المنصة
@@ -20,6 +26,10 @@ export const QUESTION_BANK: Question[] = [
   ...problemSolvingQuestions,
   ...patternShapeQuestions,
   ...spatialShapeQuestions,
+  ...patternShapeQuestions2,
+  ...spatialShapeQuestions2,
+  ...logicShapeQuestions,
+  ...problemShapeQuestions,
 ];
 
 const byId = new Map(QUESTION_BANK.map((q) => [q.id, q]));
