@@ -76,8 +76,8 @@ export function VisualStem({ visual }: { visual: Visual }) {
     case "sequence": {
       const size = sizeFor(visual.cells.length);
       return (
-        <figure className={wrap} aria-label="سلسلة أشكال تُقرأ من اليمين إلى اليسار">
-          <div className="flex items-start justify-center gap-2">
+        <figure className={wrap} aria-label="سلسلة أشكال تُقرأ من اليسار إلى اليمين">
+          <div dir="ltr" className="flex items-start justify-center gap-2">
             {visual.cells.map((c, i) => (
               <Cell key={i} glyph={c} caption={String(i + 1)} size={size} />
             ))}
@@ -88,8 +88,8 @@ export function VisualStem({ visual }: { visual: Visual }) {
     case "matrix": {
       const size = sizeFor(visual.cols + 0.5);
       return (
-        <figure className={wrap} aria-label="جدول أشكال، يُقرأ كل صف من اليمين إلى اليسار">
-          <div className="mx-auto grid w-fit gap-2" style={{ gridTemplateColumns: `repeat(${visual.cols}, auto)` }}>
+        <figure className={wrap} aria-label="جدول أشكال، يُقرأ كل صف من اليسار إلى اليمين">
+          <div dir="ltr" className="mx-auto grid w-fit gap-2" style={{ gridTemplateColumns: `repeat(${visual.cols}, auto)` }}>
             {visual.cells.map((c, i) => (
               <Cell key={i} glyph={c} size={size} />
             ))}
@@ -106,8 +106,8 @@ export function VisualStem({ visual }: { visual: Visual }) {
         </span>
       );
       return (
-        <figure className={wrap} aria-label="تناظر أشكال: الأول بالنسبة إلى الثاني كالثالث بالنسبة إلى المجهول">
-          <div className="flex items-center justify-center gap-1.5 sm:gap-3">
+        <figure className={wrap} aria-label="تناظر أشكال يُقرأ من اليسار إلى اليمين: الأول بالنسبة إلى الثاني كالثالث بالنسبة إلى المجهول">
+          <div dir="ltr" className="flex items-center justify-center gap-1.5 sm:gap-3">
             <Cell glyph={a} size={size} />
             {sep(":")}
             <Cell glyph={b} size={size} />
@@ -133,7 +133,7 @@ export function VisualStem({ visual }: { visual: Visual }) {
         );
       return (
         <figure className={wrap} aria-label="شكل ومرآة عمودية">
-          <div className="flex items-center justify-center gap-3">
+          <div dir="ltr" className="flex items-center justify-center gap-3">
             <Cell glyph={visual.glyph} size={size} />
             <div className="h-28 border-s-4 border-dashed border-sky-500" aria-hidden="true" />
             <Cell glyph={null} size={size} />
