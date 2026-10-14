@@ -8,6 +8,7 @@ const NAV = [
   { href: "/", label: "لوحتي", icon: "🏠" },
   { href: "/plan/", label: "الخطة", icon: "📅" },
   { href: "/practice/", label: "تدريب", icon: "🎯" },
+  { href: "/guide/", label: "شروحات", icon: "💡" },
   { href: "/exam/", label: "اختبارات", icon: "⏱️" },
   { href: "/results/", label: "التقارير", icon: "📊" },
 ];
@@ -61,7 +62,7 @@ export function MobileNav() {
       aria-label="التنقل السفلي"
       className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
     >
-      <ul className="grid grid-cols-5">
+      <ul className="grid grid-cols-6">
         {NAV.map((item) => {
           const active = isActive(pathname, item.href);
           return (
@@ -69,7 +70,7 @@ export function MobileNav() {
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`flex flex-col items-center gap-0.5 py-2 text-xs font-bold ${
+                className={`flex flex-col items-center gap-0.5 py-2 text-[11px] font-bold sm:text-xs ${
                   active ? "text-blue-700" : "text-slate-500"
                 }`}
               >

@@ -6,7 +6,7 @@ async function expectNoHorizontalOverflow(page: Page) {
 }
 
 test("الصفحات الرئيسية عربية باتجاه RTL وبلا تمرير أفقي", async ({ page }) => {
-  for (const path of ["./", "plan/", "day/1/", "day/19/", "practice/", "exam/", "results/", "about/"]) {
+  for (const path of ["./", "plan/", "day/1/", "day/19/", "practice/", "exam/", "results/", "about/", "guide/", "guide/shape-matrices/", "guide/truth-lies/"]) {
     await page.goto(path);
     await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
     await expect(page.locator("html")).toHaveAttribute("lang", "ar");
@@ -108,4 +108,16 @@ test("أسئلة الأشكال: التدريب الخاص بها واختبار
   await card.getByRole("button", { name: "ابدأ الاختبار" }).click();
   await expect(page.getByRole("timer")).toBeVisible();
   await expect(page.getByText("السؤال 1 من 20")).toBeVisible();
+});
+
+test("قسم الشروحات: الفهرس يقود إلى الدليل وإلى التدريب", async ({ page }) => {
+  await page.goto("guide/");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("الشروحات");
+  await page.getByRole("link", { name: /التناظر اللفظي/ }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("التناظر اللفظي");
+  await expect(page.getByText("طرق سريعة وذكية")).toBeVisible();
+  await expect(page.getByText(/الإجابة: قماش/)).toBeVisible();
+  await page.getByRole("link", { name: /تدرّب على هذا النوع/ }).click();
+  await expect(page).toHaveURL(/practice\/\?topic=verbal/);
+  await expect(page.getByRole("checkbox", { name: /العلاقات اللفظية/ })).toBeChecked();
 });

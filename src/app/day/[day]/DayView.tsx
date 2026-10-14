@@ -7,6 +7,7 @@ import { RichText } from "@/components/RichText";
 import { Figure } from "@/components/figures";
 import { Card, TopicBadge } from "@/components/ui";
 import { getDay, TOTAL_DAYS } from "@/data/plan";
+import { GUIDES, guidesForTopic } from "@/data/guides";
 import { formatNumber } from "@/lib/format";
 
 export function DayView({ day }: { day: number }) {
@@ -101,6 +102,22 @@ export function DayView({ day }: { day: number }) {
         <span className="font-extrabold">💡 نصيحة: </span>
         {plan.tip}
       </p>
+
+      <nav aria-label="شروحات مرتبطة" className="rounded-xl bg-white p-4 ring-1 ring-slate-200">
+        <p className="mb-2 font-extrabold">📘 شروحات تساعدك اليوم: طرق سريعة وفخاخ شائعة</p>
+        <ul className="flex flex-wrap gap-2">
+          {(plan.topics.length === 1 ? guidesForTopic(plan.topics[0]) : GUIDES.filter((g) => g.topic === null)).map((g) => (
+            <li key={g.slug}>
+              <Link
+                href={`/guide/${g.slug}/`}
+                className="inline-block rounded-full bg-slate-100 px-3 py-1.5 text-sm font-bold text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+              >
+                {g.icon} {g.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       <section aria-labelledby="quiz-heading" className="space-y-3">
         <h2 id="quiz-heading" className="text-xl font-extrabold">
