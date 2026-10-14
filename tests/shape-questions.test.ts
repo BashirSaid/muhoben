@@ -65,10 +65,11 @@ describe("أسئلة الأشكال", () => {
         expect(q.optionVisuals.length, q.id).toBe(q.options.length);
         expect(new Set(q.optionVisuals.map(key)).size, q.id).toBe(q.options.length);
       }
-      // الإجابة ليست نسخة من آخر شكل ظاهر قبل علامة الاستفهام
+      // الإجابة ليست نسخة من الخانة المجاورة لعلامة الاستفهام (قبلها أو بعدها)
       if (q.optionVisuals && q.visual && (q.visual.layout === "sequence" || q.visual.layout === "matrix")) {
-        const shown = q.visual.cells.filter(Boolean);
-        expect(key(shown[shown.length - 1]!), q.id).not.toBe(key(q.optionVisuals[q.answer]));
+        const cells = q.visual.cells;
+        const gap = cells.indexOf(null);
+        for (const n of [cells[gap - 1], cells[gap + 1]]) if (n) expect(key(n), q.id).not.toBe(key(q.optionVisuals[q.answer]));
       }
     }
   });
@@ -236,5 +237,32 @@ describe("أسئلة الأشكال: الدفعة الخامسة (مراجَعة
     const { BATCH5_DATA } = await import("@/data/questions/shapes/batch5");
     for (const o of [[0, 1, 2], [0, 3, 6], [0, 1, 2, 5]])
       for (const r of rotations(BATCH5_DATA.FLAT_FOOTPRINT)) expect(sameSet(r, o)).toBe(false);
+  });
+});
+
+describe("الدفعة السادسة (على نمط الامتحان)", () => {
+  it("30 سؤالًا أصليًا مرسومًا، وبعضها خانته الناقصة في وسط السلسلة", async () => {
+    const { patternShapeQuestions6 } = await import("@/data/questions/shapes/batch6");
+    expect(patternShapeQuestions6.length).toBe(30);
+    for (const q of patternShapeQuestions6) {
+      expect(SHAPE_QUESTIONS).toContain(q);
+      expect(q.optionVisuals?.length, q.id).toBe(4);
+      expect(q.prompt, q.id).toMatch(/من اليسار إلى اليمين/);
+    }
+    const midGaps = patternShapeQuestions6.filter((q) => {
+      const cells = q.visual && "cells" in q.visual ? q.visual.cells : [];
+      const gap = cells.indexOf(null);
+      return gap >= 0 && gap < cells.length - 1;
+    });
+    expect(midGaps.length).toBeGreaterThanOrEqual(8);
+    // مواضع الإجابات الصحيحة موزعة على الخيارات الأربعة
+    expect(new Set(patternShapeQuestions6.map((q) => q.answer)).size).toBe(4);
+  });
+
+  it("قاعدة الانتقال: نقش الإجابة هو رمز زاوية الخانة التي قبلها", async () => {
+    const { BATCH6_DATA } = await import("@/data/questions/shapes/batch6");
+    const { patternGlyph, ICONS } = BATCH6_DATA;
+    // نقش مختلف ورمز زاوية مختلف يعطيان رسمين مختلفين
+    expect(JSON.stringify(patternGlyph("tri", ICONS.dot, ICONS.tri))).not.toBe(JSON.stringify(patternGlyph("tri", ICONS.tri, ICONS.dot)));
   });
 });

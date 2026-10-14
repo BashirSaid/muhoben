@@ -36,15 +36,20 @@ export type QuestionSource =
   | { kind: "licensed"; attribution: string; license: string };
 
 /** ألوان الرسوم البرمجية لأسئلة الأشكال */
-export type Paint = "black" | "white" | "gray" | "blue" | "light" | "red" | "green" | "yellow" | "none";
+export type Paint =
+  | "black" | "white" | "gray" | "blue" | "light" | "red" | "green" | "yellow" | "pink" | "orange" | "purple" | "none";
 
 /** عناصر رسم بسيطة داخل مربع إحداثيات 100×100 */
+/** bare = بلا حدود سوداء (لدمج قطعتين بلون واحد في شكل واحد) */
 export type Shape =
-  | { t: "circle"; cx: number; cy: number; r: number; fill?: Paint; dash?: boolean }
-  | { t: "rect"; x: number; y: number; w: number; h: number; fill?: Paint; dash?: boolean }
-  | { t: "poly"; pts: number[]; fill?: Paint }
+  | { t: "circle"; cx: number; cy: number; r: number; fill?: Paint; dash?: boolean; bare?: boolean }
+  | { t: "ellipse"; cx: number; cy: number; rx: number; ry: number; fill?: Paint; bare?: boolean }
+  | { t: "rect"; x: number; y: number; w: number; h: number; fill?: Paint; dash?: boolean; bare?: boolean }
+  | { t: "poly"; pts: number[]; fill?: Paint; bare?: boolean }
   | { t: "line"; x1: number; y1: number; x2: number; y2: number; dash?: boolean }
-  | { t: "path"; d: string; fill?: Paint };
+  | { t: "path"; d: string; fill?: Paint; bare?: boolean }
+  /** رسم فرعي (مرسوم في مربع 100×100) يُكبَّر بمعامل s ويُدار r درجة ثم يوضع مركزه في (cx، cy) */
+  | { t: "g"; shapes: Shape[]; cx?: number; cy?: number; s?: number; r?: number };
 
 /** شكل واحد (خانة في سلسلة أو جدول، أو خيار إجابة). يُدار حول مركزه بالدرجات مع عقارب الساعة. */
 export interface Glyph {

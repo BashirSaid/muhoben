@@ -11,13 +11,29 @@ const PAINT: Record<Paint, string> = {
   red: "#ef4444",
   green: "#22c55e",
   yellow: "#facc15",
+  pink: "#ec4899",
+  orange: "#fb923c",
+  purple: "#a855f7",
   none: "none",
 };
 const STROKE = "#1e293b";
 
 function ShapeEl({ s }: { s: Shape }) {
-  const common = { stroke: STROKE, strokeWidth: 3, strokeLinejoin: "round" as const, strokeLinecap: "round" as const };
+  const bare = "bare" in s && s.bare;
+  const common = bare
+    ? { stroke: "none" }
+    : { stroke: STROKE, strokeWidth: 3, strokeLinejoin: "round" as const, strokeLinecap: "round" as const };
   switch (s.t) {
+    case "g":
+      return (
+        <g transform={`translate(${s.cx ?? 50} ${s.cy ?? 50}) rotate(${s.r ?? 0}) scale(${s.s ?? 1}) translate(-50 -50)`}>
+          {s.shapes.map((c, i) => (
+            <ShapeEl key={i} s={c} />
+          ))}
+        </g>
+      );
+    case "ellipse":
+      return <ellipse cx={s.cx} cy={s.cy} rx={s.rx} ry={s.ry} fill={PAINT[s.fill ?? "white"]} {...common} />;
     case "circle":
       return <circle cx={s.cx} cy={s.cy} r={s.r} fill={PAINT[s.fill ?? "white"]} strokeDasharray={s.dash ? "6 5" : undefined} {...common} />;
     case "rect":
@@ -68,7 +84,8 @@ function Cell({ glyph, caption, size }: { glyph: Glyph | null; caption?: string;
   );
 }
 
-const sizeFor = (perRow: number) => `min(${Math.floor(78 / perRow)}vw, 104px)`;
+// عرض الشاشة ناقص الهوامش والمسافات بين الخانات، حتى لا تخرج الخانات عن الإطار على الهاتف
+const sizeFor = (perRow: number) => `min(calc((100vw - 9rem) / ${perRow}), 104px)`;
 
 export function VisualStem({ visual }: { visual: Visual }) {
   const wrap = "my-4 rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200";

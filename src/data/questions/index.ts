@@ -24,6 +24,7 @@ import {
 } from "./shapes/batch3";
 import { patternShapeQuestions4, spatialShapeQuestions4 } from "./shapes/batch4";
 import { patternShapeQuestions5, problemShapeQuestions5, spatialShapeQuestions5 } from "./shapes/batch5";
+import { patternShapeQuestions6 } from "./shapes/batch6";
 
 /**
  * بنك الأسئلة الكامل. جميع الأسئلة أصلية من إعداد المنصة
@@ -55,6 +56,7 @@ export const QUESTION_BANK: Question[] = [
   ...patternShapeQuestions5,
   ...spatialShapeQuestions5,
   ...problemShapeQuestions5,
+  ...patternShapeQuestions6,
 ];
 
 const byId = new Map(QUESTION_BANK.map((q) => [q.id, q]));
