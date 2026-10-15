@@ -121,3 +121,13 @@ test("قسم الشروحات: الفهرس يقود إلى الدليل وإل�
   await expect(page).toHaveURL(/practice\/\?topic=verbal/);
   await expect(page.getByRole("checkbox", { name: /العلاقات اللفظية/ })).toBeChecked();
 });
+
+test("المسائل الحسابية: التدريب الخاص بها واختبارها", async ({ page }) => {
+  await page.goto("practice/?type=arith");
+  await expect(page.getByText(/العملية الجديدة \(@ و #\)/)).toBeVisible();
+  await page.getByRole("button", { name: "ابدأ التدريب" }).click();
+  await expect(page.getByText(/السؤال 1 من 10/)).toBeVisible();
+
+  await page.goto("exam/");
+  await expect(page.getByRole("heading", { name: "اختبار المسائل الحسابية" })).toBeVisible();
+});

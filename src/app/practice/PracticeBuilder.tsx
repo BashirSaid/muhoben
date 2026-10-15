@@ -4,10 +4,10 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { QuizRunner, type QuizConfig } from "@/components/QuizRunner";
 import { Button, Card } from "@/components/ui";
-import { QUESTION_BANK, SHAPE_QUESTIONS } from "@/data/questions";
+import { ARITHMETIC_QUESTIONS, QUESTION_BANK, SHAPE_QUESTIONS } from "@/data/questions";
 import { DIFFICULTY_LABELS, TOPICS, TOPIC_IDS } from "@/data/topics";
 import { formatNumber } from "@/lib/format";
-import type { Difficulty, TopicId } from "@/lib/types";
+import type { Difficulty, Question, TopicId } from "@/lib/types";
 
 const LEVELS: { id: string; label: string; value: Difficulty[] }[] = [
   { id: "mixed", label: "متدرّج (كل المستويات)", value: [1, 2, 3] },
@@ -16,6 +16,23 @@ const LEVELS: { id: string; label: string; value: Difficulty[] }[] = [
   { id: "3", label: DIFFICULTY_LABELS[3], value: [3] },
 ];
 const COUNTS = [5, 10, 15];
+
+/** أنواع خاصة من الأسئلة لها مجموعة أسئلة خاصة بها */
+const SPECIAL: Record<string, { label: string; title: string; note: string; pool: Question[] }> = {
+  shapes: {
+    label: "🔷 أسئلة الأشكال فقط",
+    title: "تدريب على أسئلة الأشكال",
+    note: "أسئلة مرسومة: سلاسل وجداول أشكال، وتناظر، ودوران ومرايا، وطيّ ورق، وعدّ أشكال، وشبكات مكعّب.",
+    pool: SHAPE_QUESTIONS,
+  },
+  arith: {
+    label: "🧮 مسائل حسابية (نمط الامتحان)",
+    title: "تدريب على المسائل الحسابية",
+    note: "العملية الجديدة (@ و #)، والرقم المخفي، والمواعيد مع الاستراحات، والصعود والانزلاق، والتقدير بالمجموع والفرق، والقصّ من لوح.",
+    pool: ARITHMETIC_QUESTIONS,
+  },
+};
+type QuestionType = "all" | keyof typeof SPECIAL;
 
 export function PracticeBuilder() {
   const params = useSearchParams();
@@ -27,13 +44,16 @@ export function PracticeBuilder() {
   const [count, setCount] = useState(10);
   const [timed, setTimed] = useState(false);
   const [feedback, setFeedback] = useState<"immediate" | "end">("immediate");
-  const [shapesOnly, setShapesOnly] = useState(params.get("type") === "shapes");
-  const [session, setSession] = useState<{ key: number; config: QuizConfig; feedback: "immediate" | "end" } | null>(null);
+  const initialType = params.get("type") ?? "all";
+  const [type, setType] = useState<QuestionType>(initialType in SPECIAL ? initialType : "all");
+  const special = type === "all" ? undefined : SPECIAL[type];
+  const [session, setSession] = useState<{ key: number; title: string; config: QuizConfig; feedback: "immediate" | "end" } | null>(
+    null,
+  );
 
   const difficulties = LEVELS.find((l) => l.id === level)!.value;
-  const shapeTopics = [...new Set(SHAPE_QUESTIONS.map((q) => q.topic))];
-  const activeTopics = shapesOnly ? shapeTopics : topics;
-  const available = (shapesOnly ? SHAPE_QUESTIONS : QUESTION_BANK).filter((q) => activeTopics.includes(q.topic)).length;
+  const activeTopics = special ? [...new Set(special.pool.map((q) => q.topic))] : topics;
+  const available = (special?.pool ?? QUESTION_BANK).filter((q) => activeTopics.includes(q.topic)).length;
 
   const toggleTopic = (id: TopicId) =>
     setTopics((prev) => (prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]));
@@ -43,7 +63,7 @@ export function PracticeBuilder() {
       <QuizRunner
         key={session.key}
         kind="practice"
-        title={session.config.pool ? "تدريب على أسئلة الأشكال" : "تدريب حر"}
+        title={session.title}
         config={session.config}
         feedback={session.feedback}
         autoStart
@@ -59,12 +79,13 @@ export function PracticeBuilder() {
           e.preventDefault();
           setSession({
             key: Date.now(),
+            title: special?.title ?? "تدريب حر",
             config: {
               count,
               topics: activeTopics,
               difficulties,
               timeLimitMinutes: timed ? count : undefined,
-              pool: shapesOnly ? SHAPE_QUESTIONS : undefined,
+              pool: special?.pool,
             },
             feedback: timed ? "end" : feedback,
           });
@@ -74,29 +95,22 @@ export function PracticeBuilder() {
         <fieldset>
           <legend className="mb-2 font-extrabold">نوع الأسئلة</legend>
           <div className="flex flex-wrap gap-2">
-            {[
-              { id: false, label: "كل الأسئلة" },
-              { id: true, label: "🔷 أسئلة الأشكال فقط" },
-            ].map((o) => (
+            {[{ id: "all", label: "كل الأسئلة" }, ...Object.entries(SPECIAL).map(([id, v]) => ({ id, label: v.label }))].map((o) => (
               <label
-                key={String(o.id)}
+                key={o.id}
                 className={`cursor-pointer rounded-xl px-4 py-2 font-bold ring-1 ${
-                  shapesOnly === o.id ? "bg-blue-600 text-white ring-blue-600" : "bg-white ring-slate-300"
+                  type === o.id ? "bg-blue-600 text-white ring-blue-600" : "bg-white ring-slate-300"
                 }`}
               >
-                <input type="radio" name="type" checked={shapesOnly === o.id} onChange={() => setShapesOnly(o.id)} className="sr-only" />
+                <input type="radio" name="type" checked={type === o.id} onChange={() => setType(o.id)} className="sr-only" />
                 {o.label}
               </label>
             ))}
           </div>
-          {shapesOnly && (
-            <p className="mt-2 text-sm text-slate-500">
-              أسئلة مرسومة: سلاسل وجداول أشكال، وتناظر، ودوران ومرايا، وطيّ ورق، وعدّ أشكال، وشبكات مكعّب.
-            </p>
-          )}
+          {special && <p className="mt-2 text-sm text-slate-500">{special.note}</p>}
         </fieldset>
 
-        <fieldset disabled={shapesOnly} className={shapesOnly ? "opacity-50" : undefined}>
+        <fieldset disabled={Boolean(special)} className={special ? "opacity-50" : undefined}>
           <legend className="mb-2 font-extrabold">المجالات</legend>
           <div className="grid gap-2 sm:grid-cols-2">
             {TOPICS.map((t) => (

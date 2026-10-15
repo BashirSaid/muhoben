@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { QuizRunner } from "@/components/QuizRunner";
 import { Button, Card, Notice } from "@/components/ui";
-import { SHAPE_QUESTIONS } from "@/data/questions";
+import { ARITHMETIC_QUESTIONS, SHAPE_QUESTIONS } from "@/data/questions";
 import { TOPIC_IDS } from "@/data/topics";
 import { formatNumber, questionsCount } from "@/lib/format";
 import type { AttemptKind, Difficulty, Question } from "@/lib/types";
@@ -52,6 +52,17 @@ export const EXAM_TYPES: ExamType[] = [
     difficulties: [1, 2, 3],
     pool: SHAPE_QUESTIONS,
   },
+  {
+    id: "arith",
+    kind: "mini-exam",
+    title: "اختبار المسائل الحسابية",
+    description: "على نمط قسم المسائل الحسابية: العملية الجديدة، والرقم المخفي، والمواعيد، والصعود والانزلاق، والتقدير، والقصّ.",
+    icon: "🧮",
+    count: 15,
+    minutes: 20,
+    difficulties: [1, 2, 3],
+    pool: ARITHMETIC_QUESTIONS,
+  },
 ];
 
 export function ExamCenter() {
@@ -79,7 +90,7 @@ export function ExamCenter() {
 
   return (
     <div className="space-y-5">
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2">
         {EXAM_TYPES.map((t) => (
           <Card key={t.id} className="flex flex-col">
             <div className="text-4xl" aria-hidden="true">

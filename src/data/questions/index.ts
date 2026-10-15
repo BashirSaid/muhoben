@@ -7,6 +7,7 @@ import { verbalQuestions2 } from "./verbal-2";
 import { quantitativeQuestions } from "./quantitative";
 import { quantitativeQuestions2 } from "./quantitative-2";
 import { operationQuestions } from "./operations";
+import { arithmeticProblemSolving, arithmeticQuantitative } from "./arithmetic";
 import { spatialQuestions } from "./spatial";
 import { problemSolvingQuestions } from "./problem-solving";
 import { problemSolvingQuestions2 } from "./problem-solving-2";
@@ -40,6 +41,8 @@ export const QUESTION_BANK: Question[] = [
   ...quantitativeQuestions,
   ...quantitativeQuestions2,
   ...operationQuestions,
+  ...arithmeticQuantitative,
+  ...arithmeticProblemSolving,
   ...spatialQuestions,
   ...problemSolvingQuestions,
   ...problemSolvingQuestions2,
@@ -74,6 +77,9 @@ export function isShapeQuestion(q: Question): boolean {
 
 /** كل أسئلة الأشكال المرسومة — للتدريب والاختبارات الخاصة بالأشكال */
 export const SHAPE_QUESTIONS: Question[] = QUESTION_BANK.filter(isShapeQuestion);
+
+/** قسم «مسائل حسابية» على نمط الامتحان: العملية الجديدة، والرقم المخفي، والمواعيد، والصعود والانزلاق، والتقدير، والقصّ */
+export const ARITHMETIC_QUESTIONS: Question[] = [...operationQuestions, ...arithmeticQuantitative, ...arithmeticProblemSolving];
 
 export function questionsByTopic(topic: TopicId): Question[] {
   return QUESTION_BANK.filter((q) => q.topic === topic);

@@ -43,8 +43,8 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   const prev = GUIDES[index - 1];
   const next = GUIDES[index + 1];
   const practiceHref =
-    guide.practice === "shapes"
-      ? "/practice/?type=shapes"
+    guide.practice !== "topic"
+      ? `/practice/?type=${guide.practice}`
       : guide.topic
         ? `/practice/?topic=${guide.topic}`
         : "/practice/";
