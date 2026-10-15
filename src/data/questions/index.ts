@@ -6,6 +6,7 @@ import { verbalQuestions } from "./verbal";
 import { verbalQuestions2 } from "./verbal-2";
 import { quantitativeQuestions } from "./quantitative";
 import { quantitativeQuestions2 } from "./quantitative-2";
+import { operationQuestions } from "./operations";
 import { spatialQuestions } from "./spatial";
 import { problemSolvingQuestions } from "./problem-solving";
 import { problemSolvingQuestions2 } from "./problem-solving-2";
@@ -38,6 +39,7 @@ export const QUESTION_BANK: Question[] = [
   ...verbalQuestions2,
   ...quantitativeQuestions,
   ...quantitativeQuestions2,
+  ...operationQuestions,
   ...spatialQuestions,
   ...problemSolvingQuestions,
   ...problemSolvingQuestions2,
