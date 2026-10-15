@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { QuizRunner, type QuizConfig } from "@/components/QuizRunner";
 import { Button, Card } from "@/components/ui";
-import { ARITHMETIC_QUESTIONS, QUESTION_BANK, SHAPE_QUESTIONS } from "@/data/questions";
+import { ARITHMETIC_QUESTIONS, QUESTION_BANK, SENTENCE_QUESTIONS, SHAPE_QUESTIONS } from "@/data/questions";
 import { DIFFICULTY_LABELS, TOPICS, TOPIC_IDS } from "@/data/topics";
 import { formatNumber } from "@/lib/format";
 import type { Difficulty, Question, TopicId } from "@/lib/types";
@@ -30,6 +30,12 @@ const SPECIAL: Record<string, { label: string; title: string; note: string; pool
     title: "تدريب على المسائل الحسابية",
     note: "العملية الجديدة (@ و #)، والرقم المخفي، والمواعيد مع الاستراحات، والصعود والانزلاق، والتقدير بالمجموع والفرق، والقصّ من لوح.",
     pool: ARITHMETIC_QUESTIONS,
+  },
+  sentences: {
+    label: "✍️ إكمال الجمل (نمط الامتحان)",
+    title: "تدريب على إكمال الجمل",
+    note: "جمل بفراغين أو ثلاثة، وكل خيار مجموعة كلمات. خيار واحد فقط تناسب كل كلماته منطق الجملة.",
+    pool: SENTENCE_QUESTIONS,
   },
 };
 type QuestionType = "all" | keyof typeof SPECIAL;

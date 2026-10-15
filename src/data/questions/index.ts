@@ -8,6 +8,7 @@ import { quantitativeQuestions } from "./quantitative";
 import { quantitativeQuestions2 } from "./quantitative-2";
 import { operationQuestions } from "./operations";
 import { arithmeticProblemSolving, arithmeticQuantitative } from "./arithmetic";
+import { sentenceQuestions } from "./sentences";
 import { spatialQuestions } from "./spatial";
 import { problemSolvingQuestions } from "./problem-solving";
 import { problemSolvingQuestions2 } from "./problem-solving-2";
@@ -38,6 +39,7 @@ export const QUESTION_BANK: Question[] = [
   ...patternQuestions,
   ...verbalQuestions,
   ...verbalQuestions2,
+  ...sentenceQuestions,
   ...quantitativeQuestions,
   ...quantitativeQuestions2,
   ...operationQuestions,
@@ -80,6 +82,9 @@ export const SHAPE_QUESTIONS: Question[] = QUESTION_BANK.filter(isShapeQuestion)
 
 /** قسم «مسائل حسابية» على نمط الامتحان: العملية الجديدة، والرقم المخفي، والمواعيد، والصعود والانزلاق، والتقدير، والقصّ */
 export const ARITHMETIC_QUESTIONS: Question[] = [...operationQuestions, ...arithmeticQuantitative, ...arithmeticProblemSolving];
+
+/** قسم «إكمال الجمل» على نمط الامتحان: جمل بفراغ أو أكثر */
+export const SENTENCE_QUESTIONS: Question[] = sentenceQuestions;
 
 export function questionsByTopic(topic: TopicId): Question[] {
   return QUESTION_BANK.filter((q) => q.topic === topic);

@@ -131,3 +131,11 @@ test("المسائل الحسابية: التدريب الخاص بها واخت
   await page.goto("exam/");
   await expect(page.getByRole("heading", { name: "اختبار المسائل الحسابية" })).toBeVisible();
 });
+
+test("إكمال الجمل: التدريب الخاص به واختباره", async ({ page }) => {
+  await page.goto("practice/?type=sentences");
+  await page.getByRole("button", { name: "ابدأ التدريب" }).click();
+  await expect(page.getByText(/اختر الخيار الأنسب لإكمال الجملة/)).toBeVisible();
+  await page.goto("exam/");
+  await expect(page.getByRole("heading", { name: "اختبار إكمال الجمل" })).toBeVisible();
+});

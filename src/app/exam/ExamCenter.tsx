@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { QuizRunner } from "@/components/QuizRunner";
 import { Button, Card, Notice } from "@/components/ui";
-import { ARITHMETIC_QUESTIONS, SHAPE_QUESTIONS } from "@/data/questions";
+import { ARITHMETIC_QUESTIONS, SENTENCE_QUESTIONS, SHAPE_QUESTIONS } from "@/data/questions";
 import { TOPIC_IDS } from "@/data/topics";
 import { formatNumber, questionsCount } from "@/lib/format";
 import type { AttemptKind, Difficulty, Question } from "@/lib/types";
@@ -62,6 +62,17 @@ export const EXAM_TYPES: ExamType[] = [
     minutes: 20,
     difficulties: [1, 2, 3],
     pool: ARITHMETIC_QUESTIONS,
+  },
+  {
+    id: "sentences",
+    kind: "mini-exam",
+    title: "اختبار إكمال الجمل",
+    description: "على نمط قسم إكمال الجمل: جمل بفراغ أو أكثر، والمطلوب الخيار الذي تناسب كل كلماته منطق الجملة.",
+    icon: "✍️",
+    count: 12,
+    minutes: 15,
+    difficulties: [1, 2, 3],
+    pool: SENTENCE_QUESTIONS,
   },
 ];
 
